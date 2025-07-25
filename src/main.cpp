@@ -1,3 +1,4 @@
+#include "Arduino.h"
 // #define CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_SILENT
 
 #include "config.h"
@@ -8,90 +9,35 @@
 #include <esp_now.h>
 #include <esp_wifi.h>  // required for the esp_error_check()
 
-// OneShot125 timer
-  #define ESC_OFFSET (4096 * 0.14)
-  #define ONESHOT_TIMER LEDC_TIMER_0
-  #define LEDC_MODE LEDC_LOW_SPEED_MODE
-  #define ONESHOT0_CHANNEL LEDC_CHANNEL_0
-  #define ONESHOT1_CHANNEL LEDC_CHANNEL_1
-  #define ONESHOT2_CHANNEL LEDC_CHANNEL_2
-  #define ONESHOT3_CHANNEL LEDC_CHANNEL_3
-  #define ONESHOT_DUTY_RES LEDC_TIMER_14_BIT
-  #define ONESHOT_DUTY (4096)       // set duty to 25%
-  #define ONESHOT_FREQUENCY (2000)  // 2kHz
-// end OneShot125 timer
+// Gyro full-scale selection 
+#define GYRO_RANGE_250DPS     MPU6500::GYRO_RANGE_250DPS
+// Accel full-scale selection 
+#define ACCEL_RANGE_2G        MPU6500::ACCEL_RANGE_2G  // Ensure enum scope is resolved
+// Digital low pass filter selection
+#define DLPF_BANDWIDTH_184HZ  MPU6500::DLPF_BANDWIDTH_184HZ
+// Oneshot defines
+#define ESC_OFFSET        (4096 * 0.14)
+#define ONESHOT_TIMER     LEDC_TIMER_0
+#define LEDC_MODE         LEDC_LOW_SPEED_MODE
+#define ONESHOT0_CHANNEL  LEDC_CHANNEL_0
+#define ONESHOT1_CHANNEL  LEDC_CHANNEL_1
+#define ONESHOT2_CHANNEL  LEDC_CHANNEL_2
+#define ONESHOT3_CHANNEL  LEDC_CHANNEL_3
+#define ONESHOT_DUTY_RES  LEDC_TIMER_14_BIT
+#define ONESHOT_DUTY      (4096)          // set duty to 25%
+#define ONESHOT_FREQUENCY (2000)          // 2kHz
 
-// Serial communciation
-  #define MAX_MSSG_SIZE 100
-  char message[MAX_MSSG_SIZE] = "";
-// end Serial communication
+// message buffer
+char messageBuf[MAX_MSSG_SIZE] = "";
+// SPI object
+SPIClass spiBus(VSPI);
+// IMU object
+MPU6500 mpu(spiBus, IMU_CS);
+// esp now 
+data_controller_to_drone incomingReadings;  // create the struct for incoming data
+data_drone_to_controller sendingData;  // create struct for sending data
+esp_now_peer_info_t peerInfo;
 
-// SPI begin
-  SPIClass spiBus(VSPI);
-// end SPI
-
-// IMU
-  // MPU6050 scaling constants (without external library)
-  // Gyro full-scale selection 
-  #define GYRO_RANGE_250DPS     MPU6500::GYRO_RANGE_250DPS
-  // Accel full-scale selection 
-  #define ACCEL_RANGE_2G        MPU6500::ACCEL_RANGE_2G  // Ensure enum scope is resolved
-  // Digital low pass filter selection
-  #define DLPF_BANDWIDTH_184HZ  MPU6500::DLPF_BANDWIDTH_184HZ
-  // IMU Object
-  MPU6500 mpu(spiBus, IMU_CS);
-// end IMU
-
-// controller
-//Controller parameters (take note of defaults before modifying!):
-#define i_limit 25.0    //Integrator saturation level, mostly for safety (default 25.0)
-#define MAX_ROLL 30.0   //Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-#define MAX_PITCH 30.0  //Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-#define MAX_YAW 160.0   //Max yaw rate in deg/sec
-// end controller
-
-// esp now begin
-  #ifdef TUNING
-  typedef struct pid_tuning {
-    float Kp, Ki, Kd;
-  } pid_tuning;
-  #endif
-
-  uint8_t controllerAddress[] = { 0xd4, 0x8a, 0xfc, 0x5f, 0xf0, 0x80 };
-  // create struct of the data that is recieved by the drone
-  typedef struct data_controller_to_drone {
-    float throttle;       // 0.0 -> 1.0
-    float roll_pos_deg;   // desired roll position of the drone
-    float pitch_pos_deg;  // desired pitch position of the drone
-    float yaw_deg_per_s;  // desired rotation rate around the yaw axis in deg per second
-    uint8_t error;        // 0 if no error accured
-    uint8_t status;       // MSB = if TUNING is active
-
-  // these flexible variables have to be after the fixed variables, cause of error/status handling
-  #ifdef TUNING
-    struct pid_tuning roll;
-    struct pid_tuning pitch;
-    struct pid_tuning yaw;
-  #endif
-  } data_controller_to_drone;
-  data_controller_to_drone incomingReadings;  // create the struct for incoming data
-
-  // create struct of the data that is send from the drone to the controller
-  typedef struct data_drone_to_controller {
-    float roll_pos_deg;   // actual roll position of the drone
-    float pitch_pos_deg;  // actual pitch position of the drone
-    float yaw_pos_deg;    // actual yaw position of the drone
-    uint8_t error;        // 0 if no error accured
-    uint8_t status;       // MSB = if TUNING is active
-  #ifdef TUNING
-    int16_t out[3];
-    uint16_t fl, fr, bl, br;
-  #endif
-  } data_drone_to_controller;
-  data_drone_to_controller sendingData;  // create struct for sending data
-
-  esp_now_peer_info_t peerInfo;
-// esp now end
 
 // function declaration 
 void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq);
@@ -738,11 +684,6 @@ void send_data() {
   } else cnt++;
 }
 
-
-void clrMessage(char* pString){
-  *pString = '\0';
-}
-
 int8_t charToInt(char c){
   if((c >= '0') && (c <= '9')){
     return (c - '0');
@@ -798,13 +739,13 @@ void serialCommunication(){
   if(Serial.available()){
     char incomingChar = Serial.read();
     static uint8_t currentIdx = 0;
-    message[currentIdx] = incomingChar;
+    messageBuf[currentIdx] = incomingChar;
     currentIdx++;
     if(incomingChar == '\n'){
-      message[currentIdx] = '\0';
+      messageBuf[currentIdx] = '\0';
       currentIdx = 0;
-      analyzeMessage(message);
-      clrMessage(message);  
+      analyzeMessage(messageBuf);
+      messageBuf[0] = '\0'; // clear message
     }
   }
 }
@@ -823,9 +764,4 @@ void printDelay(uint16_t dt){
   else if(cnt == 500){
     Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitudeIMUFrame[roll].estimate), (attitudeIMUFrame[pitch].estimate), (attitudeIMUFrame[yaw].estimate));
   }
-}
-
-void deleteMePls(){
-  // delete this function
-  // do not foget to delete this function
 }
