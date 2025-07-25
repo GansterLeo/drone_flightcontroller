@@ -1,6 +1,6 @@
 // #define CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_SILENT
 
-#include "header.h"
+#include "config.h"
 #include "MPU6500.h"
 #include "driver/ledc.h"
 
