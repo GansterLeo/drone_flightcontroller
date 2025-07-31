@@ -75,6 +75,7 @@ typedef struct stAttitude{
   float globalOffset;
 } stAttitude;
 stAttitude attitudeIMUFrame[nOfAxisNames];
+stAttitude attitudeWorldFrame[nOfAxisNames];
 
 typedef struct imu_6DOF {
   float gx, gy, gz;
@@ -82,7 +83,7 @@ typedef struct imu_6DOF {
 } imu_6DOF;
 imu_6DOF imu;
 
-float rotationMtrxCorrect[3][3] = {
+float rotationMtrx[nOfAxisNames][nOfAxisNames] = {
   {1, 0, 0},
   {0, 1, 0},
   {0, 0, 1}

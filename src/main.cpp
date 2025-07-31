@@ -40,8 +40,10 @@ esp_now_peer_info_t peerInfo;
 
 
 // function declaration 
+void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]);
+void applyRotationMatrix(const stAttitude pInitialFrame[], stAttitude pNewFrame[], const float pRotationMtrx[][nOfAxisNames]);
 void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq);
-void controlANGLE(void);
+void controlANGLE(stAttitude pAttitude[]);
 void oneshot125_init(void);
 void oneshot125_write(const float fl_vl, const float fr_vl, const float bl_vl, const float br_vl);
 uint8_t getIMUdata(void);
@@ -136,9 +138,11 @@ void loop() {
     //Pulls raw gyro, accelerometer, and magnetometer data from IMU and LP filters to remove noise
     Serial.printf("getIMUdata failed\n");
   }
-  else Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);  //Updates roll_IMU, pitch_IMU, and yaw_IMU angle estimates (degrees)
- 
-  controlANGLE();
+  else {
+    Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);  //Updates roll_IMU, pitch_IMU, and yaw_IMU angle estimates (degrees)
+    applyRotationMatrix(attitudeIMUFrame, attitudeWorldFrame, rotationMtrx);
+  }
+  controlANGLE(attitudeWorldFrame);
 
   // control mixer
   motor[frontLeft]   = incomingReadings.throttle - PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
@@ -157,6 +161,33 @@ void loop() {
   // Serial.println(micros() - prev_micros);
   printDelay(micros() - prev_micros);
   loopRate(2000);
+}
+
+void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]){
+    // Compute with initial angles (NEGATION applied inside trig)
+  float cr = cos(-pAngles[roll]);    // =  cos(roll)
+  float sr = sin(-pAngles[roll]);    // = -sin(roll)
+  float cp = cos(-pAngles[pitch]);   // =  cos(pitch)
+  float sp = sin(-pAngles[pitch]);   // = -sin(pitch)
+  float cy = cos(-pAngles[yaw]);     // =  cos(yaw)
+  float sy = sin(-pAngles[yaw]);     // = -sin(yaw)
+
+  // Direct matrix (equivalent to Rz * Ry * Rx)
+  float temp[3][3] = {
+      { cp*cy,   cp*sy,   -sp },
+      { sr*sp*cy - cr*sy,   sr*sp*sy + cr*cy,   sr*cp },
+      { cr*sp*cy + sr*sy,   cr*sp*sy - sr*cy,   cr*cp }
+  };
+  memcpy(pRCorrectM, temp, sizeof(temp));
+}
+
+void applyRotationMatrix(const stAttitude pInitialFrame[], stAttitude pNewFrame[], const float pRotationMtrx[][nOfAxisNames]){
+  for(uint8_t i = 0; i < nOfAxisNames; i++){
+    pNewFrame[i].estimate = 0;
+    for(uint8_t k = 0; k < nOfAxisNames; k++){
+      pNewFrame[i].estimate += pInitialFrame[k].estimate * pRotationMtrx[i][k];
+    }
+  }
 }
 
 void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq) {
@@ -247,7 +278,7 @@ void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, fl
 
 }
 
-void controlANGLE(void) {
+void controlANGLE(stAttitude pAttitude[]) {
   //DESCRIPTION: Computes control commands based on state error (angle)
   /*
    * Basic PID control to stablize on angle setpoint based on desired states roll_des, pitch_des, and yaw_des computed in 
@@ -272,14 +303,14 @@ void controlANGLE(void) {
   }
 
   //Roll
-  float error_roll = attitudeIMUFrame[roll].desired - (attitudeIMUFrame[roll].estimate);
+  float error_roll = pAttitude[roll].desired - (pAttitude[roll].estimate);
   integral_roll += error_roll * dt;
   integral_roll = constrain(integral_roll, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
 
   PID[roll].value = 0.01 * ((PID[roll].Kp * error_roll) + (PID[roll].Ki * integral_roll) - (PID[roll].Kd * imu.gx));  //Scaled by .01 to bring within -1 to 1 range
 
   //Pitch
-  float error_pitch = attitudeIMUFrame[pitch].desired - (attitudeIMUFrame[pitch].estimate);
+  float error_pitch = pAttitude[pitch].desired - (pAttitude[pitch].estimate);
   integral_pitch += error_pitch * dt;
   integral_pitch = constrain(integral_pitch, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
 
@@ -287,7 +318,7 @@ void controlANGLE(void) {
 
   //Yaw, stablize on rate from GyroZ
   static float error_yaw_prev = 0;
-  float error_yaw = attitudeIMUFrame[yaw].desired - imu.gz;
+  float error_yaw = pAttitude[yaw].desired - imu.gz;
   integral_yaw += error_yaw * dt;
   integral_yaw = constrain(integral_yaw, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
   float derivative_yaw = (error_yaw - error_yaw_prev) / dt;
@@ -727,10 +758,11 @@ int8_t analyzeMessage(char* pMessage){
       token = strtok(NULL, " \t\r\n");
   }
   if(strcmp(argv[0], "setPos") == 0){
+    float offset[nOfAxisNames]= {0};
     for(uint8_t i = roll; (i <= yaw) && (i <= argc); i++){
-      attitudeIMUFrame[i].globalOffset = attitudeIMUFrame[i].estimate - ARGV_TO_FLOAT(argv[i + 1]);
-      Serial.println(attitudeIMUFrame[i].globalOffset);
+      offset[i] = attitudeIMUFrame[i].estimate - ARGV_TO_FLOAT(argv[i + 1]);
     }
+    computeRotationMatrix(rotationMtrx, offset);
   }
   return 1;
 }
