@@ -100,7 +100,7 @@ void setup() {
   Serial.printf("calibrating attitudeIMUFrame\n");
   calibrateAttitude();
   // !!! comment out after errors are gethered
-  // calculate_IMU_error();
+  calculate_IMU_error();
   
   Serial.printf("Waiting 5s for motors to be initialised\n");
   delay(5000);

@@ -76,6 +76,9 @@ class MPU6500{
       LP_ACCEL_ODR_250HZ = 10,
       LP_ACCEL_ODR_500HZ = 11
     };
+    const int16_t tX[3] = {0,  1,  0};
+    const int16_t tY[3] = {1,  0,  0};
+    const int16_t tZ[3] = {0,  0,  1};
     MPU6500(I2C_t &bus,uint8_t address);
     MPU6500(SPIClass &bus,uint8_t csPin);
     int8_t begin();

@@ -1,0 +1,390 @@
+RAW Values: thrust: 0496; roll: 1835; pitch: 1791; yaw: 2023
+status:0thrust: 0.50, roll: 0.35, pitch: 0.18, yaw: 0.31, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0498; roll: 1835; pitch: 1790; yaw: 2021
+status:0thrust: 0.50, roll: 0.35, pitch: 0.17, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0494; roll: 1842; pitch: 1787; yaw: 2022
+status:0thrust: 0.50, roll: 0.40, pitch: 0.15, yaw: 0.31, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0496; roll: 1837; pitch: 1790; yaw: 2020
+status:0thrust: 0.50, roll: 0.37, pitch: 0.17, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0495; roll: 1837; pitch: 1789; yaw: 2020
+status:0thrust: 0.50, roll: 0.37, pitch: 0.16, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0477; roll: 1838; pitch: 1790; yaw: 2021
+status:0thrust: 0.50, roll: 0.37, pitch: 0.17, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0496; roll: 1840; pitch: 1788; yaw: 2019
+status:0thrust: 0.50, roll: 0.38, pitch: 0.16, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out, Actual: roll:0.00, pitch:0.00,:0, m_out.fl:0, fr:0, bl:0, br:0 yaw:0.00
+RAW Values: thrust: 0496; roll: 1844; pitch: 1791; yaw: 2034
+status:0thrust: 0.50, roll: 0.41, pitch: 0.18, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0495; roll: 1840; pitch: 1788; yaw: 2020
+status:0thrust: 0.50, roll: 0.38, pitch: 0.16, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0496; roll: 1834; pitch: 1789; yaw: 2025
+status:0thrust: 0.50, roll: 0.35, pitch: 0.16, yaw: 0.32, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0497; roll: 1838; pitch: 1790; yaw: 2025
+status:0thrust: 0.50, roll: 0.37, pitch: 0.17, yaw: 0.32, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0495; roll: 1834; pitch: 1791; yaw: 2020
+status:0thrust: 0.50, roll: 0.35, pitch: 0.18, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0496; roll: 1835; pitch: 1790; yaw: 2022
+status:0thrust: 0.50, roll: 0.35, pitch: 0.17, yaw: 0.31, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0496; roll: 1835; pitch: 1793; yaw: 2023
+status:0thrust: 0.50, roll: 0.35, pitch: 0.19, yaw: 0.31, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0496; roll: 1831; pitch: 1787; yaw: 2021
+status:0thrust: 0.50, roll: 0.33, pitch: 0.15, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0496; roll: 1834; pitch: 1790; yaw: 2023
+status:0thrust: 0.50, roll: 0.35, pitch: 0.17, yaw: 0.31, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0495; roll: 1837; pitch: 1790; yaw: 2023
+status:0thrust: 0.50, roll: 0.37, pitch: 0.17, yaw: 0.31, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0495; roll: 1835; pitch: 1791; yaw: 2019
+status:0thrust: 0.50, roll: 0.35, pitch: 0.18, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0499; roll: 1840; pitch: 1792; yaw: 2021
+status:0thrust: 0.50, roll: 0.38, pitch: 0.19, yaw: 0.30, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2182; roll: 1835; pitch: 1791; yaw: 2017
+status:0thrust: 0.15, roll: 0.35, pitch: 0.18, yaw: 0.29, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3392; roll: 1832; pitch: 1790; yaw: 2014
+status:0thrust: 0.00, roll: 0.33, pitch: 0.17, yaw: 0.27, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3396; roll: 1835; pitch: 1789; yaw: 2026
+status:0thrust: 0.00, roll: 0.35, pitch: 0.16, yaw: 0.33, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3396; roll: 1837; pitch: 1744; yaw: 2033
+status:0thrust: 0.00, roll: 0.37, pitch: -0.18, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3393; roll: 1837; pitch: 1791; yaw: 2044
+status:0thrust: 0.00, roll: 0.37, pitch: 0.18, yaw: 0.42, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3407; roll: 1833; pitch: 1790; yaw: 2032
+status:0thrust: 0.00, roll: 0.34, pitch: 0.17, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3399; roll: 1837; pitch: 1790; yaw: 1941
+status:0thrust: 0.00, roll: 0.37, pitch: 0.17, yaw: -0.09, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3399; roll: 1839; pitch: 1791; yaw: 1937
+status:0thrust: 0.00, roll: 0.38, pitch: 0.18, yaw: -0.11, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3398; roll: 1839; pitch: 1792; yaw: 2000
+status:0thrust: 0.00, roll: 0.38, pitch: 0.19, yaw: 0.20, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3407; roll: 1838; pitch: 1791; yaw: 2000
+status:0thrust: 0.00, roll: 0.37, pitch: 0.18, yaw: 0.20, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2438; roll: 1835; pitch: 1793; yaw: 2034
+status:0thrust: 0.10, roll: 0.35, pitch: 0.19, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0833; roll: 1838; pitch: 1787; yaw: 2059
+status:0thrust: 0.43, roll: 0.37, pitch: 0.15, yaw: 0.49, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0346; roll: 1838; pitch: 1792; yaw: 2055
+status:0thrust: 0.53, roll: 0.37, pitch: 0.19, yaw: 0.47, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0336; roll: 1835; pitch: 1790; yaw: 2055
+status:0thrust: 0.53, roll: 0.35, pitch: 0.17, yaw: 0.47, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0357; roll: 1836; pitch: 1791; yaw: 2013
+status:0thrust: 0.53, roll: 0.36, pitch: 0.18, yaw: 0.27, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0355; roll: 1840; pitch: 1791; yaw: 2045
+status:0thrust: 0.53, roll: 0.38, pitch: 0.18, yaw: 0.42, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0882; roll: 1837; pitch: 1791; yaw: 2042
+status:0thrust: 0.42, roll: 0.37, pitch: 0.18, yaw: 0.41, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3376; roll: 1835; pitch: 1792; yaw: 2029
+status:0thrust: 0.00, roll: 0.35, pitch: 0.19, yaw: 0.34, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3382; roll: 1840; pitch: 1794; yaw: 2033
+status:0thrust: 0.00, roll: 0.38, pitch: 0.20, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3387; roll: 1840; pitch: 1794; yaw: 2032
+status:0thrust: 0.00, roll: 0.38, pitch: 0.20, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3396; roll: 1839; pitch: 1793; yaw: 2033
+status:0thrust: 0.00, roll: 0.38, pitch: 0.19, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3399; roll: 1840; pitch: 1793; yaw: 2035
+status:0thrust: 0.00, roll: 0.38, pitch: 0.19, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3397; roll: 1841; pitch: 1791; yaw: 2035
+status:0thrust: 0.00, roll: 0.39, pitch: 0.18, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3397; roll: 1840; pitch: 1793; yaw: 2037
+status:0thrust: 0.00, roll: 0.38, pitch: 0.19, yaw: 0.38, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3399; roll: 1840; pitch: 1792; yaw: 2033
+status:0thrust: 0.00, roll: 0.38, pitch: 0.19, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3403; roll: 1841; pitch: 1794; yaw: 2035
+status:0thrust: 0.00, roll: 0.39, pitch: 0.20, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3393; roll: 1837; pitch: 1795; yaw: 2033
+status:0thrust: 0.00, roll: 0.37, pitch: 0.21, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3392; roll: 1840; pitch: 1792; yaw: 2034
+status:0thrust: 0.00, roll: 0.38, pitch: 0.19, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3401; roll: 1839; pitch: 1792; yaw: 2032
+status:0thrust: 0.00, roll: 0.38, pitch: 0.19, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3397; roll: 1839; pitch: 1792; yaw: 2033
+status:0thrust: 0.00, roll: 0.38, pitch: 0.19, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3401; roll: 1840; pitch: 1807; yaw: 2026
+status:0thrust: 0.00, roll: 0.38, pitch: 0.30, yaw: 0.33, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3274; roll: 1841; pitch: 1792; yaw: 2030
+status:0thrust: 0.00, roll: 0.39, pitch: 0.19, yaw: 0.35, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2320; roll: 1839; pitch: 1795; yaw: 2032
+status:0thrust: 0.13, roll: 0.38, pitch: 0.21, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 1641; roll: 1840; pitch: 1795; yaw: 2035
+status:0thrust: 0.26, roll: 0.38, pitch: 0.21, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 1056; roll: 1842; pitch: 1799; yaw: 2037
+status:0thrust: 0.38, roll: 0.40, pitch: 0.24, yaw: 0.38, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0832; roll: 1841; pitch: 1792; yaw: 2057
+status:0thrust: 0.43, roll: 0.39, pitch: 0.19, yaw: 0.48, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0475; roll: 1840; pitch: 1794; yaw: 2057
+status:0thrust: 0.50, roll: 0.38, pitch: 0.20, yaw: 0.48, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0420; roll: 1840; pitch: 1795; yaw: 2056
+status:0thrust: 0.51, roll: 0.38, pitch: 0.21, yaw: 0.48, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0354; roll: 1839; pitch: 1792; yaw: 2047
+status:0thrust: 0.53, roll: 0.38, pitch: 0.19, yaw: 0.43, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0347; roll: 1841; pitch: 1797; yaw: 2055
+status:0thrust: 0.53, roll: 0.39, pitch: 0.22, yaw: 0.47, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0343; roll: 1839; pitch: 1795; yaw: 2041
+status:0thrust: 0.53, roll: 0.38, pitch: 0.21, yaw: 0.40, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0347; roll: 1840; pitch: 1795; yaw: 2033
+status:0thrust: 0.53, roll: 0.38, pitch: 0.21, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0360; roll: 1839; pitch: 1793; yaw: 2033
+status:0thrust: 0.53, roll: 0.38, pitch: 0.19, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2215; roll: 1840; pitch: 1798; yaw: 2031
+status:0thrust: 0.15, roll: 0.38, pitch: 0.23, yaw: 0.35, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3392; roll: 1840; pitch: 1795; yaw: 2003
+status:0thrust: 0.00, roll: 0.38, pitch: 0.21, yaw: 0.22, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3391; roll: 1840; pitch: 1794; yaw: 2004
+status:0thrust: 0.00, roll: 0.38, pitch: 0.20, yaw: 0.22, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3391; roll: 1840; pitch: 1795; yaw: 2000
+status:0thrust: 0.00, roll: 0.38, pitch: 0.21, yaw: 0.20, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3392; roll: 1840; pitch: 1783; yaw: 1993
+status:0thrust: 0.00, roll: 0.38, pitch: 0.12, yaw: 0.17, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3389; roll: 1840; pitch: 1795; yaw: 1999
+status:0thrust: 0.00, roll: 0.38, pitch: 0.21, yaw: 0.20, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2503; roll: 1841; pitch: 1794; yaw: 2077
+status:0thrust: 0.09, roll: 0.39, pitch: 0.20, yaw: 0.58, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0352; roll: 1840; pitch: 1794; yaw: 2075
+status:0thrust: 0.53, roll: 0.38, pitch: 0.20, yaw: 0.57, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0349; roll: 1840; pitch: 1795; yaw: 2055
+status:0thrust: 0.53, roll: 0.38, pitch: 0.21, yaw: 0.47, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0345; roll: 1840; pitch: 1795; yaw: 2058
+status:0thrust: 0.53, roll: 0.38, pitch: 0.21, yaw: 0.49, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0347; roll: 1839; pitch: 1799; yaw: 2056
+status:0thrust: 0.53, roll: 0.38, pitch: 0.24, yaw: 0.48, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0344; roll: 1844; pitch: 1801; yaw: 2056
+status:0thrust: 0.53, roll: 0.41, pitch: 0.25, yaw: 0.48, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0343; roll: 1842; pitch: 1795; yaw: 2055
+status:0thrust: 0.53, roll: 0.40, pitch: 0.21, yaw: 0.47, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0347; roll: 1841; pitch: 1796; yaw: 2057
+status:0thrust: 0.53, roll: 0.39, pitch: 0.22, yaw: 0.48, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 0758; roll: 1841; pitch: 1799; yaw: 2057
+status:0thrust: 0.44, roll: 0.39, pitch: 0.24, yaw: 0.48, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 1626; roll: 1840; pitch: 1797; yaw: 2056
+status:0thrust: 0.27, roll: 0.38, pitch: 0.22, yaw: 0.48, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2110; roll: 1839; pitch: 1802; yaw: 2053
+status:0thrust: 0.17, roll: 0.38, pitch: 0.26, yaw: 0.46, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2435; roll: 1840; pitch: 1797; yaw: 2043
+status:0thrust: 0.10, roll: 0.38, pitch: 0.22, yaw: 0.41, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2894; roll: 1841; pitch: 1793; yaw: 2043
+status:0thrust: 0.01, roll: 0.39, pitch: 0.19, yaw: 0.41, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3379; roll: 1840; pitch: 1795; yaw: 2041
+status:0thrust: 0.00, roll: 0.38, pitch: 0.21, yaw: 0.40, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3381; roll: 1840; pitch: 1798; yaw: 2047
+status:0thrust: 0.00, roll: 0.38, pitch: 0.23, yaw: 0.43, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3382; roll: 1841; pitch: 1797; yaw: 2010
+status:0thrust: 0.00, roll: 0.39, pitch: 0.22, yaw: 0.25, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3386; roll: 1845; pitch: 1796; yaw: 2017
+status:0thrust: 0.00, roll: 0.41, pitch: 0.22, yaw: 0.29, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3392; roll: 1842; pitch: 1803; yaw: 2031
+status:0thrust: 0.00, roll: 0.40, pitch: 0.27, yaw: 0.35, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3390; roll: 1846; pitch: 1802; yaw: 2064
+status:0thrust: 0.00, roll: 0.42, pitch: 0.26, yaw: 0.52, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3402; roll: 1849; pitch: 1808; yaw: 2107
+status:0thrust: 0.00, roll: 0.44, pitch: 0.31, yaw: 0.73, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3405; roll: 1854; pitch: 1803; yaw: 2216
+status:0thrust: 0.00, roll: 0.47, pitch: 0.27, yaw: 1.27, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3405; roll: 1841; pitch: 1801; yaw: 2685
+status:0thrust: 0.00, roll: 0.39, pitch: 0.25, yaw: 3.59, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3276; roll: 1846; pitch: 1803; yaw: 3520
+status:0thrust: 0.00, roll: 0.42, pitch: 0.27, yaw: 7.73, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2992; roll: 1849; pitch: 1804; yaw: 3783
+status:0thrust: 0.00, roll: 0.44, pitch: 0.28, yaw: 9.03, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2996; roll: 1843; pitch: 1795; yaw: 3771
+status:0thrust: 0.00, roll: 0.40, pitch: 0.21, yaw: 8.97, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2988; roll: 1847; pitch: 1811; yaw: 3778
+status:0thrust: 0.00, roll: 0.43, pitch: 0.33, yaw: 9.00, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2992; roll: 1843; pitch: 1807; yaw: 3781
+status:0thrust: 0.00, roll: 0.40, pitch: 0.30, yaw: 9.02, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2992; roll: 1844; pitch: 1799; yaw: 3762
+status:0thrust: 0.00, roll: 0.41, pitch: 0.24, yaw: 8.92, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2994; roll: 1842; pitch: 1798; yaw: 3776
+status:0thrust: 0.00, roll: 0.40, pitch: 0.23, yaw: 8.99, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2996; roll: 1841; pitch: 1801; yaw: 3761
+status:0thrust: 0.00, roll: 0.39, pitch: 0.25, yaw: 8.92, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2992; roll: 1859; pitch: 1798; yaw: 3102
+status:0thrust: 0.00, roll: 0.50, pitch: 0.23, yaw: 5.66, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2990; roll: 1848; pitch: 1822; yaw: 2037
+status:0thrust: 0.00, roll: 0.43, pitch: 0.41, yaw: 0.38, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 3005; roll: 1858; pitch: 1804; yaw: 1453
+status:0thrust: 0.00, roll: 0.49, pitch: 0.28, yaw: -2.51, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2998; roll: 1845; pitch: 1807; yaw: 0437
+status:0thrust: 0.00, roll: 0.41, pitch: 0.30, yaw: -7.54, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2967; roll: 1849; pitch: 1808; yaw: 0419
+status:0thrust: 0.00, roll: 0.44, pitch: 0.31, yaw: -7.63, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2971; roll: 1854; pitch: 1805; yaw: 0431
+status:0thrust: 0.00, roll: 0.47, pitch: 0.28, yaw: -7.57, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2974; roll: 1847; pitch: 1807; yaw: 0645
+status:0thrust: 0.00, roll: 0.43, pitch: 0.30, yaw: -6.51, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2956; roll: 1847; pitch: 1803; yaw: 2029
+status:0thrust: 0.00, roll: 0.43, pitch: 0.27, yaw: 0.34, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1847; pitch: 1807; yaw: 2032
+status:0thrust: 0.00, roll: 0.43, pitch: 0.30, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1845; pitch: 1808; yaw: 2032
+status:0thrust: 0.00, roll: 0.41, pitch: 0.31, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1849; pitch: 1805; yaw: 2031
+status:0thrust: 0.00, roll: 0.44, pitch: 0.28, yaw: 0.35, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1847; pitch: 1815; yaw: 2029
+status:0thrust: 0.00, roll: 0.43, pitch: 0.36, yaw: 0.34, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2951; roll: 1851; pitch: 1806; yaw: 2032
+status:0thrust: 0.00, roll: 0.45, pitch: 0.29, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2950; roll: 1840; pitch: 1827; yaw: 2032
+status:0thrust: 0.00, roll: 0.38, pitch: 0.45, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1870; pitch: 1805; yaw: 2030
+status:0thrust: 0.00, roll: 0.57, pitch: 0.28, yaw: 0.35, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1872; pitch: 1808; yaw: 2035
+status:0thrust: 0.00, roll: 0.58, pitch: 0.31, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd:0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out -0.62, roll_Kp: 0.70, roll_Ki: :0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1869; pitch: 1803; yaw: 2032
+status:0thrust: 0.00, roll: 0.56, pitch: 0.27, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2951; roll: 1872; pitch: 1972; yaw: 2032
+status:0thrust: 0.00, roll: 0.58, pitch: 1.55, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2966; roll: 1867; pitch: 2388; yaw: 2036
+status:0thrust: 0.00, roll: 0.55, pitch: 4.70, yaw: 0.38, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2944; roll: 1872; pitch: 2741; yaw: 2032
+status:0thrust: 0.00, roll: 0.58, pitch: 7.38, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1868; pitch: 3215; yaw: 2032
+status:0thrust: 0.00, roll: 0.56, pitch: 10.97, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1867; pitch: 3328; yaw: 2032
+status:0thrust: 0.00, roll: 0.55, pitch: 11.83, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1863; pitch: 3334; yaw: 2032
+status:0thrust: 0.00, roll: 0.53, pitch: 11.88, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2956; roll: 1866; pitch: 3344; yaw: 2032
+status:0thrust: 0.00, roll: 0.54, pitch: 11.95, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1869; pitch: 3325; yaw: 2032
+status:0thrust: 0.00, roll: 0.56, pitch: 11.81, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1867; pitch: 3329; yaw: 2023
+status:0thrust: 0.00, roll: 0.55, pitch: 11.84, yaw: 0.31, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1899; pitch: 1856; yaw: 2033
+status:0thrust: 0.00, roll: 0.75, pitch: 0.67, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1891; pitch: 0859; yaw: 2033
+status:0thrust: 0.00, roll: 0.70, pitch: -6.89, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2981; roll: 1887; pitch: 0363; yaw: 2032
+status:0thrust: 0.00, roll: 0.67, pitch: -10.65, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1895; pitch: 0354; yaw: 2032
+status:0thrust: 0.00, roll: 0.72, pitch: -10.72, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2956; roll: 1886; pitch: 0352; yaw: 2032
+status:0thrust: 0.00, roll: 0.67, pitch: -10.73, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1893; pitch: 0352; yaw: 2032
+status:0thrust: 0.00, roll: 0.71, pitch: -10.73, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1902; pitch: 0358; yaw: 2032
+status:0thrust: 0.00, roll: 0.77, pitch: -10.69, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1899; pitch: 0350; yaw: 2037
+status:0thrust: 0.00, roll: 0.75, pitch: -10.75, yaw: 0.38, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2949; roll: 1898; pitch: 0358; yaw: 2035
+status:0thrust: 0.00, roll: 0.74, pitch: -10.69, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1897; pitch: 0734; yaw: 2035
+status:0thrust: 0.00, roll: 0.73, pitch: -7.84, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1879; pitch: 1637; yaw: 2033
+status:0thrust: 0.00, roll: 0.62, pitch: -0.99, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2948; roll: 1878; pitch: 1760; yaw: 2033
+status:0thrust: 0.00, roll: 0.62, pitch: -0.06, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1881; pitch: 1753; yaw: 2032
+status:0thrust: 0.00, roll: 0.64, pitch: -0.11, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1883; pitch: 1743; yaw: 2036
+status:0thrust: 0.00, roll: 0.65, pitch: -0.19, yaw: 0.38, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2946; roll: 1881; pitch: 1759; yaw: 2033
+status:0thrust: 0.00, roll: 0.64, pitch: -0.06, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 2838; pitch: 1765; yaw: 2033
+status:0thrust: 0.00, roll: 6.53, pitch: -0.02, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2943; roll: 3675; pitch: 1767; yaw: 2034
+status:0thrust: 0.00, roll: 11.69, pitch: -0.00, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 3665; pitch: 1761; yaw: 2035
+status:0thrust: 0.00, roll: 11.62, pitch: -0.05, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2951; roll: 3683; pitch: 1762; yaw: 2033
+status:0thrust: 0.00, roll: 11.74, pitch: -0.04, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 3680; pitch: 1767; yaw: 2010
+status:0thrust: 0.00, roll: 11.72, pitch: -0.00, yaw: 0.25, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2956; roll: 3678; pitch: 1760; yaw: 2035
+status:0thrust: 0.00, roll: 11.70, pitch: -0.06, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 2165; pitch: 1742; yaw: 2032
+status:0thrust: 0.00, roll: 2.39, pitch: -0.19, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1073; pitch: 1676; yaw: 2033
+status:0thrust: 0.00, roll: -4.34, pitch: -0.69, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 0370; pitch: 1658; yaw: 2035
+status:0thrust: 0.00, roll: -8.67, pitch: -0.83, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2958; roll: 0363; pitch: 1674; yaw: 2032
+status:0thrust: 0.00, roll: -8.71, pitch: -0.71, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2960; roll: 0320; pitch: 1678; yaw: 2032
+status:0thrust: 0.00, roll: -8.98, pitch: -0.68, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2947; roll: tus:0thrust: 0.00, roll: -8.74, p: 2.90, pitch_Ki: 0.04, pitch_K0359; pitch: 1679; yaw: 2037
+stapitch: -0.67, yaw: 0.38, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2947; roll: 0366; pitch: 1675; yaw: 2032
+status:0thrust: 0.00, roll: -8.70, pitch: -0.70, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 0361; pitch: 1744; yaw: 2032
+status:0thrust: 0.00, roll: -8.73, pitch: -0.18, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2950; roll: 0928; pitch: 1744; yaw: 2032
+status:0thrust: 0.00, roll: -5.23, pitch: -0.18, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 2148; pitch: 1779; yaw: 2034
+status:0thrust: 0.00, roll: 2.28, pitch: 0.09, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2966; roll: 1936; pitch: 1766; yaw: 2032
+status:0thrust: 0.00, roll: 0.97, pitch: -0.01, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1946; pitch: 1773; yaw: 2032
+status:0thrust: 0.00, roll: 1.04, pitch: 0.04, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1933; pitch: 1769; yaw: 2032
+status:0thrust: 0.00, roll: 0.96, pitch: 0.01, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1930; pitch: 1771; yaw: 2032
+status:0thrust: 0.00, roll: 0.94, pitch: 0.03, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2960; roll: 1932; pitch: 1766; yaw: 2047
+status:0thrust: 0.00, roll: 0.95, pitch: -0.01, yaw: 0.43, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1902; pitch: 1771; yaw: 2032
+status:0thrust: 0.00, roll: 0.77, pitch: 0.03, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1936; pitch: 1771; yaw: 2065
+status:0thrust: 0.00, roll: 0.97, pitch: 0.03, yaw: 0.52, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1936; pitch: 1769; yaw: 2030
+status:0thrust: 0.00, roll: 0.97, pitch: 0.01, yaw: 0.35, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1920; pitch: 1769; yaw: 2032
+status:0thrust: 0.00, roll: 0.88, pitch: 0.01, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1936; pitch: 1773; yaw: 2032
+status:0thrust: 0.00, roll: 0.97, pitch: 0.04, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1936; pitch: 1769; yaw: 2032
+status:0thrust: 0.00, roll: 0.97, pitch: 0.01, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1936; pitch: 1773; yaw: 2037
+status:0thrust: 0.00, roll: 0.97, pitch: 0.04, yaw: 0.38, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1941; pitch: 1771; yaw: 2032
+status:0thrust: 0.00, roll: 1.01, pitch: 0.03, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2958; roll: 1941; pitch: 1769; yaw: 2016
+status:0thrust: 0.00, roll: 1.01, pitch: 0.01, yaw: 0.28, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1942; pitch: 1760; yaw: 2034
+status:0thrust: 0.00, roll: 1.01, pitch: -0.06, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2956; roll: 1939; pitch: 1772; yaw: 2046
+status:0thrust: 0.00, roll: 0.99, pitch: 0.03, yaw: 0.43, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2962; roll: 1940; pitch: 1776; yaw: 2032
+status:0thrust: 0.00, roll: 1.00, pitch: 0.06, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1936; pitch: 1771; yaw: 2032
+status:0thrust: 0.00, roll: 0.97, pitch: 0.03, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2960; roll: 1938; pitch: 1765; yaw: 2024
+status:0thrust: 0.00, roll: 0.99, pitch: -0.02, yaw: 0.32, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1937; pitch: 1770; yaw: 2035
+status:0thrust: 0.00, roll: 0.98, pitch: 0.02, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2960; roll: 1936; pitch: 1771; yaw: 2032
+status:0thrust: 0.00, roll: 0.97, pitch: 0.03, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2953; roll: 1938; pitch: 1776; yaw: 2033
+status:0thrust: 0.00, roll: 0.99, pitch: 0.06, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2959; roll: 1936; pitch: 1771; yaw: 2035
+status:0thrust: 0.00, roll: 0.97, pitch: 0.03, yaw: 0.37, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2960; roll: 1940; pitch: 1771; yaw: 2033
+status:0thrust: 0.00, roll: 1.00, pitch: 0.03, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1936; pitch: 1770; yaw: 2032
+staitch: 0.02, yaw: 0.36, pitch_Kp:tus:0thrust: 0.00, roll: 0.97, p 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2960; roll: 1936; pitch: 1774; yaw: 2033
+status:0thrust: 0.00, roll: 0.97, pitch: 0.05, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1936; pitch: 1778; yaw: 2032
+status:0thrust: 0.00, roll: 0.97, pitch: 0.08, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2951; roll: 1936; pitch: 1773; yaw: 2038
+status:0thrust: 0.00, roll: 0.97, pitch: 0.04, yaw: 0.39, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2958; roll: 1934; pitch: 1770; yaw: 2037
+status:0thrust: 0.00, roll: 0.96, pitch: 0.02, yaw: 0.38, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2954; roll: 1933; pitch: 1769; yaw: 2033
+status:0thrust: 0.00, roll: 0.96, pitch: 0.01, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2951; roll: 1936; pitch: 1771; yaw: 2033
+status:0thrust: 0.00, roll: 0.97, pitch: 0.03, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2958; roll: 1932; pitch: 1771; yaw: 2031
+status:0thrust: 0.00, roll: 0.95, pitch: 0.03, yaw: 0.35, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2958; roll: 1935; pitch: 1773; yaw: 2032
+status:0thrust: 0.00, roll: 0.97, pitch: 0.04, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1934; pitch: 1776; yaw: 2033
+status:0thrust: 0.00, roll: 0.96, pitch: 0.06, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2957; roll: 1931; pitch: 1773; yaw: 2032
+status:0thrust: 0.00, roll: 0.94, pitch: 0.04, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2959; roll: 1936; pitch: 1770; yaw: 2032
+status:0thrust: 0.00, roll: 0.97, pitch: 0.02, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2940; roll: 1936; pitch: 1770; yaw: 2033
+status:0thrust: 0.00, roll: 0.97, pitch: 0.02, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2958; roll: 1944; pitch: 1773; yaw: 2033
+status:0thrust: 0.00, roll: 1.02, pitch: 0.04, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2955; roll: 1977; pitch: 1774; yaw: 2033
+status:0thrust: 0.00, roll: 1.23, pitch: 0.05, yaw: 0.36, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0.00, yaw_Ki: 0.01, yaw_Kd: 0.00, pitch out:0, roll out:0, yaw out:0, m_out.fl:0, fr:0, bl:0, br:0, Actual: roll:0.00, pitch:0.00, yaw:0.00
+RAW Values: thrust: 2959; roll: 1936; pitch: 1767; yaw: 2039
+status:0thrust: 0.00, roll: 0.97, pitch: -0.00, yaw: 0.39, pitch_Kp: 2.90, pitch_Ki: 0.04, pitch_Kd: -0.62, roll_Kp: 0.70, roll_Ki: 0.00, roll_Kd: -0.00, yaw_Kp: 0
