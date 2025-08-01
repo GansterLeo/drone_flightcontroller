@@ -24,8 +24,12 @@
 // defines
 #define SERIAL_BAUDRATE 250000
 #define MAX_MSSG_SIZE 100
+#ifndef DEG_TO_RAD
 #define DEG_TO_RAD (PI / 180)
-
+#endif
+#ifndef RAD_TO_DEG
+#define RAD_TO_DEG (180 / PI)
+#endif
 // global variables
 unsigned long prev_micros           = 0;
 unsigned long current_time          = 0;
@@ -41,12 +45,29 @@ float B_gyro = 0.17;       //Gyro LP filter paramter, (MPU6050 default: 0.1. MPU
 // end Filter parameters
 
 // IMU ERROR
-#define AccErrorX  (-0.14)
-#define AccErrorY   (0.11)
-#define AccErrorZ   (9.41)
-#define GyroErrorX  (0.03)
-#define GyroErrorY  (0.03)
-#define GyroErrorZ  (0.03)
+#define AccErrorX  (0.49)
+#define AccErrorY  (-0.39)
+#define AccErrorZ  (0.79)
+#define GyroErrorX (-0.12)
+#define GyroErrorY (-0.04)
+#define GyroErrorZ (0.09)
+/*
+before rotation matrix:
+float AcX = 0.27;
+float AcY = -0.15;
+float AccErrorZ = 0.81;
+float GyX = 0.05;
+float GyY = 0.05;
+float GyZ = 0.05;
+
+after rotation matrix:
+float AcX       = 0.49;
+float AcY       = -0.39;
+float AccErrorZ = 0.79;
+float GyX       = -0.12;
+float GyY       = -0.04;
+float GyZ       = 0.09;
+*/
 
 //PID controller 
 //Controller parameters (take note of defaults before modifying!):
@@ -74,8 +95,8 @@ typedef struct stAttitude{
   float desired, estimate, prev_est;
   float globalOffset;
 } stAttitude;
-stAttitude attitudeIMUFrame[nOfAxisNames];
-stAttitude attitudeWorldFrame[nOfAxisNames];
+stAttitude attitude[nOfAxisNames];
+
 
 typedef struct imu_6DOF {
   float gx, gy, gz;
@@ -84,9 +105,9 @@ typedef struct imu_6DOF {
 imu_6DOF imu;
 
 float rotationMtrx[nOfAxisNames][nOfAxisNames] = {
-  {1, 0, 0},
-  {0, 1, 0},
-  {0, 0, 1}
+  {0.987865329, 0.153431430, 0.024102017, },
+  {-0.153040752, 0.988068342, -0.017305164, },
+  {-0.026469596, 0.013406581, 0.999559700}
 };
 
 typedef struct stPID {

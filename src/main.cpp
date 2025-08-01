@@ -46,6 +46,7 @@ void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, fl
 void controlANGLE(stAttitude pAttitude[]);
 void oneshot125_init(void);
 void oneshot125_write(const float fl_vl, const float fr_vl, const float bl_vl, const float br_vl);
+void calculate_IMU_error();
 uint8_t getIMUdata(void);
 void loopRate(uint16_t freq);
 float invSqrt(float x);
@@ -96,11 +97,11 @@ void setup() {
   Serial.printf("Oneshot125 init done, now esp now init\n");
   init_wlcomm();
 
-  // !!! comment out after errors are gethered
-  // calculate_IMU_error();
   Serial.printf("calibrating attitudeIMUFrame\n");
   calibrateAttitude();
-
+  // !!! comment out after errors are gethered
+  // calculate_IMU_error();
+  
   Serial.printf("Waiting 5s for motors to be initialised\n");
   delay(5000);
   Serial.printf("!!! testing motors !!!\n");
@@ -140,9 +141,8 @@ void loop() {
   }
   else {
     Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);  //Updates roll_IMU, pitch_IMU, and yaw_IMU angle estimates (degrees)
-    applyRotationMatrix(attitudeIMUFrame, attitudeWorldFrame, rotationMtrx);
   }
-  controlANGLE(attitudeWorldFrame);
+  controlANGLE(attitude);
 
   // control mixer
   motor[frontLeft]   = incomingReadings.throttle - PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
@@ -165,27 +165,36 @@ void loop() {
 
 void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]){
     // Compute with initial angles (NEGATION applied inside trig)
-  float cr = cos(-pAngles[roll]);    // =  cos(roll)
-  float sr = sin(-pAngles[roll]);    // = -sin(roll)
-  float cp = cos(-pAngles[pitch]);   // =  cos(pitch)
-  float sp = sin(-pAngles[pitch]);   // = -sin(pitch)
-  float cy = cos(-pAngles[yaw]);     // =  cos(yaw)
-  float sy = sin(-pAngles[yaw]);     // = -sin(yaw)
+  float cr = cos(-DEG_TO_RAD * pAngles[roll]);    // =  cos(roll)
+  float sr = sin(-DEG_TO_RAD * pAngles[roll]);    // = -sin(roll)
+  float cp = cos(-DEG_TO_RAD * pAngles[pitch]);   // =  cos(pitch)
+  float sp = sin(-DEG_TO_RAD * pAngles[pitch]);   // = -sin(pitch)
+  float cy = cos(-DEG_TO_RAD * pAngles[yaw]);     // =  cos(yaw)
+  float sy = sin(-DEG_TO_RAD * pAngles[yaw]);     // = -sin(yaw)
 
   // Direct matrix (equivalent to Rz * Ry * Rx)
   float temp[3][3] = {
-      { cp*cy,   cp*sy,   -sp },
+      { cp*cy,              cp*sy,              -sp },
       { sr*sp*cy - cr*sy,   sr*sp*sy + cr*cy,   sr*cp },
       { cr*sp*cy + sr*sy,   cr*sp*sy - sr*cy,   cr*cp }
   };
+
+  Serial.printf("Rotation Matrix\n");
+  for(uint8_t i = 0; i < nOfAxisNames; i++){
+    for(uint8_t k = 0; k < nOfAxisNames; k++){
+      Serial.printf("%10.9f, ", temp[i][k]);
+    }
+    Serial.printf("\n");
+  }
+
   memcpy(pRCorrectM, temp, sizeof(temp));
 }
 
-void applyRotationMatrix(const stAttitude pInitialFrame[], stAttitude pNewFrame[], const float pRotationMtrx[][nOfAxisNames]){
+void applyRotationMatrix(const float pDataInitialFrame[], float pDataNewFrame[], const float pRotationMtrx[][nOfAxisNames]){
   for(uint8_t i = 0; i < nOfAxisNames; i++){
-    pNewFrame[i].estimate = 0;
+    pDataNewFrame[i] = 0;
     for(uint8_t k = 0; k < nOfAxisNames; k++){
-      pNewFrame[i].estimate += pInitialFrame[k].estimate * pRotationMtrx[i][k];
+      pDataNewFrame[i] += pDataInitialFrame[k] * pRotationMtrx[i][k];
     }
   }
 }
@@ -272,9 +281,9 @@ void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, fl
   q3 *= recipNorm;
 
   //Compute angles
-  attitudeIMUFrame[roll].estimate   = atan2(q0 * q1 + q2 * q3, 0.5f - q1 * q1 - q2 * q2) * 57.29577951;                   //degrees
-  attitudeIMUFrame[pitch].estimate  = -asin(constrain(-2.0f * (q1 * q3 - q0 * q2), -0.999999, 0.999999)) * 57.29577951;  //degrees
-  attitudeIMUFrame[yaw].estimate    = -atan2(q1 * q2 + q0 * q3, 0.5f - q2 * q2 - q3 * q3) * 57.29577951;                   //degrees
+  attitude[roll].estimate   = atan2(q0 * q1 + q2 * q3, 0.5f - q1 * q1 - q2 * q2) * 57.29577951;                   //degrees
+  attitude[pitch].estimate  = -asin(constrain(-2.0f * (q1 * q3 - q0 * q2), -0.999999, 0.999999)) * 57.29577951;  //degrees
+  attitude[yaw].estimate    = -atan2(q1 * q2 + q0 * q3, 0.5f - q2 * q2 - q3 * q3) * 57.29577951;                   //degrees
 
 }
 
@@ -425,11 +434,17 @@ uint8_t getIMUdata(void) {
   uint8_t returnValue = 0;
 
   mpu.readSensor();
-  
+  float rawData[nOfAxisNames] = {
+    mpu.getAccelX_mss(),
+    mpu.getAccelY_mss(),
+    mpu.getAccelZ_mss()
+  };
+  float newFrame[nOfAxisNames];
+  applyRotationMatrix(rawData, newFrame, rotationMtrx);
   //Accelerometer and correct the outputs with the calculated error values
-  imu.ax = (mpu.getAccelX_mss()) - AccErrorX;  //G's
-  imu.ay = (mpu.getAccelY_mss()) - AccErrorY;
-  imu.az = (mpu.getAccelZ_mss()) - AccErrorZ;
+  imu.ax = newFrame[0] - AccErrorX;  //G's
+  imu.ay = newFrame[1] - AccErrorY;
+  imu.az = newFrame[2] - AccErrorZ;
 
   //LP filter accelerometer data
   imu.ax = ((1.0 - B_accel) * axPrev) + (B_accel * imu.ax);
@@ -439,10 +454,14 @@ uint8_t getIMUdata(void) {
   ayPrev = imu.ay;
   azPrev = imu.az;
 
+  rawData[0] = mpu.getGyroX_rads();
+  rawData[1] = mpu.getGyroY_rads();
+  rawData[2] = mpu.getGyroZ_rads();
+  applyRotationMatrix(rawData, newFrame, rotationMtrx);
   //Gyro and correct the outputs with the calculated error values
-  imu.gx = (mpu.getGyroX_rads() * (180 / PI)) - GyroErrorX;  //deg/sec
-  imu.gy = (mpu.getGyroY_rads() * (180 / PI)) - GyroErrorY;
-  imu.gz = (mpu.getGyroZ_rads() * (180 / PI)) - GyroErrorZ;
+  imu.gx = (rawData[0] * RAD_TO_DEG) - GyroErrorX;  //deg/sec
+  imu.gy = (rawData[1] * RAD_TO_DEG) - GyroErrorY;
+  imu.gz = (rawData[2] * RAD_TO_DEG) - GyroErrorZ;
 
   //LP filter gyro data
   imu.gx = ((1.0 - B_gyro) * gxPrev) + (B_gyro * imu.gx);
@@ -455,7 +474,7 @@ uint8_t getIMUdata(void) {
   return 0;
 }
 
-/*
+
 void calculate_IMU_error(void){
   //DESCRIPTION: Computes IMU accelerometer and gyro error on startup. Note: vehicle should be powered up on flat surface
   
@@ -463,59 +482,72 @@ void calculate_IMU_error(void){
   // accelerometer values AccX, AccY, AccZ, GyroX, GyroY, GyroZ in getIMUdata(). This eliminates drift in the
   // measurement. 
 
-  int16_t AcX,AcY,AcZ,GyX,GyY,GyZ;
-  AccErrorX = 0.0;
-  AccErrorY = 0.0;
-  AccErrorZ = 0.0;
-  GyroErrorX = 0.0;
-  GyroErrorY= 0.0;
-  GyroErrorZ = 0.0;
+  double AcX,AcY,AcZ,GyX,GyY,GyZ;
+  AcX = 0.0;
+  AcY = 0.0;
+  AcZ = 0.0;
+  GyX = 0.0;
+  GyY= 0.0;
+  GyZ = 0.0;
   
   //Read IMU values 12000 times
   uint16_t c = 0;
   while(c < 12000){
     mpu.readSensor();    
     //Sum all readings
-    AccErrorX  += mpu.getAccelX_mss();
-    AccErrorY  += mpu.getAccelY_mss();
-    AccErrorZ  += mpu.getAccelZ_mss();
-    GyroErrorX += mpu.getGyroX_rads() * (180 / PI);
-    GyroErrorY += mpu.getGyroX_rads() * (180 / PI);
-    GyroErrorZ += mpu.getGyroX_rads() * (180 / PI);
+    float rawData[nOfAxisNames] = {
+      mpu.getAccelX_mss(),
+      mpu.getAccelY_mss(),
+      mpu.getAccelZ_mss()
+    };
+    float newFrame[nOfAxisNames];
+    applyRotationMatrix(rawData, newFrame, rotationMtrx);
+    //Accelerometer and correct the outputs with the calculated error values
+    AcX += newFrame[0] - AccErrorX;  //G's
+    AcY += newFrame[1] - AccErrorY;
+    AcZ += newFrame[2] - AccErrorZ;
+    rawData[0] = mpu.getGyroX_rads();
+    rawData[1] = mpu.getGyroY_rads();
+    rawData[2] = mpu.getGyroZ_rads();
+    applyRotationMatrix(rawData, newFrame, rotationMtrx);
+    //Gyro and correct the outputs with the calculated error values
+    GyX += (rawData[0] * RAD_TO_DEG) - GyroErrorX;  //deg/sec
+    GyY += (rawData[1] * RAD_TO_DEG) - GyroErrorY;
+    GyZ += (rawData[2] * RAD_TO_DEG) - GyroErrorZ;
     
     c++;
   }
   //Divide the sum by 12000 to get the error value
-  AccErrorX  = AccErrorX / c;
-  AccErrorY  = AccErrorY / c;
-  AccErrorZ  = (AccErrorZ / c) - 1.0;
-  GyroErrorX = GyroErrorX / c;
-  GyroErrorY = GyroErrorY / c;
-  GyroErrorZ = GyroErrorZ / c;
+  AcX  = AcX / c;
+  AcY  = AcY / c;
+  AcZ  = (AcZ / c) - 9.81;
+  GyX = GyX / c;
+  GyY = GyY / c;
+  GyZ = GyZ / c;
 
-  Serial.print("float AccErrorX = ");
-  Serial.print(AccErrorX);
+  Serial.print("float AcX = ");
+  Serial.print(AcX);
   Serial.println(";");
-  Serial.print("float AccErrorY = ");
-  Serial.print(AccErrorY);
+  Serial.print("float AcY = ");
+  Serial.print(AcY);
   Serial.println(";");
   Serial.print("float AccErrorZ = ");
-  Serial.print(AccErrorZ);
+  Serial.print(AcZ);
   Serial.println(";");
   
-  Serial.print("float GyroErrorX = ");
-  Serial.print(GyroErrorX);
+  Serial.print("float GyX = ");
+  Serial.print(GyX);
   Serial.println(";");
-  Serial.print("float GyroErrorY = ");
-  Serial.print(GyroErrorY);
+  Serial.print("float GyY = ");
+  Serial.print(GyY);
   Serial.println(";");
-  Serial.print("float GyroErrorZ = ");
-  Serial.print(GyroErrorZ);
+  Serial.print("float GyZ = ");
+  Serial.print(GyZ);
   Serial.println(";");
 
   Serial.println("Paste these values in user specified variables section and comment out calculate_IMU_error() in void setup.");
 }
-*/
+
 
 void loopRate(uint16_t freq) {
   //DESCRIPTION: Regulate main loop rate to specified frequency in Hz
@@ -760,9 +792,10 @@ int8_t analyzeMessage(char* pMessage){
   if(strcmp(argv[0], "setPos") == 0){
     float offset[nOfAxisNames]= {0};
     for(uint8_t i = roll; (i <= yaw) && (i <= argc); i++){
-      offset[i] = attitudeIMUFrame[i].estimate - ARGV_TO_FLOAT(argv[i + 1]);
+      offset[i] = attitude[i].estimate - ARGV_TO_FLOAT(argv[i + 1]);
     }
     computeRotationMatrix(rotationMtrx, offset);
+    Serial.printf("updated rotation Matrix!\n");
   }
   return 1;
 }
@@ -770,10 +803,11 @@ int8_t analyzeMessage(char* pMessage){
 void serialCommunication(){
   if(Serial.available()){
     char incomingChar = Serial.read();
+    Serial.printf("%c", incomingChar);
     static uint8_t currentIdx = 0;
     messageBuf[currentIdx] = incomingChar;
     currentIdx++;
-    if(incomingChar == '\n'){
+    if(incomingChar == '\n' or incomingChar == '\0'){
       messageBuf[currentIdx] = '\0';
       currentIdx = 0;
       analyzeMessage(messageBuf);
@@ -794,6 +828,6 @@ void printDelay(uint16_t dt){
     Serial.println(dt_mean);
   }
   else if(cnt == 500){
-    Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitudeIMUFrame[roll].estimate), (attitudeIMUFrame[pitch].estimate), (attitudeIMUFrame[yaw].estimate));
+    Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
   }
 }
