@@ -39,8 +39,8 @@ bool          shutdown              = false;
 
 // Filter parameters
 //Defaults tuned for 2kHz loop rate; Do not touch unless you know what you are doing:
-float B_madgwick = 0.05;  //Madgwick filter parameter
-float B_accel = 0.2;     //Accelerometer LP filter paramter, (MPU6050 default: 0.14. MPU9250 default: 0.2)
+float B_madgwick = 0.025;  //Madgwick filter parameter
+float B_accel = 0.14;     //Accelerometer LP filter paramter, (MPU6050 default: 0.14. MPU9250 default: 0.2)
 float B_gyro = 0.17;       //Gyro LP filter paramter, (MPU6050 default: 0.1. MPU9250 default: 0.17)
 // end Filter parameters
 

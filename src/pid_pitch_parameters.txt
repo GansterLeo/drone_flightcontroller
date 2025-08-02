@@ -1,0 +1,9 @@
+pitch kp: 0.3
+time: 1.0
+
+nicholas Ziegler PID:
+kp: 0.18
+Ti: 0.5
+Td: 0.125
+Ki: 0.36
+Kd: 0.0225

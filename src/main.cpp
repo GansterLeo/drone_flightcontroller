@@ -146,10 +146,10 @@ void loop() {
   controlANGLE(attitude);
 
   // control mixer
-  motor[frontLeft]   = incomingReadings.throttle + PID[pitch].value - PID[roll].value + PID[yaw].value;  //Front Left
-  motor[frontRight]  = incomingReadings.throttle + PID[pitch].value + PID[roll].value - PID[yaw].value;  //Front Right
-  motor[backLeft]    = incomingReadings.throttle - PID[pitch].value - PID[roll].value - PID[yaw].value;  //Back Right
-  motor[backRight]   = incomingReadings.throttle - PID[pitch].value + PID[roll].value + PID[yaw].value;  //Back Left
+  motor[frontLeft]   = incomingReadings.throttle + PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
+  motor[frontRight]  = incomingReadings.throttle + PID[pitch].value - PID[roll].value - PID[yaw].value;  //Front Right
+  motor[backLeft]    = incomingReadings.throttle - PID[pitch].value + PID[roll].value - PID[yaw].value;  //Back Right
+  motor[backRight]   = incomingReadings.throttle - PID[pitch].value - PID[roll].value + PID[yaw].value;  //Back Left
 
   oneshot125_write(motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
 
@@ -838,15 +838,15 @@ int8_t analyzeMessage(char* pMessage){
       default:
         return ARGV_2ND_NOT_VALID;
     }
-    if((strcmp(argv[2], "kp") == 0) || (strcmp(argv[2], "Kp"))){
+    if((strcmp(argv[2], "kp") == 0) || (strcmp(argv[2], "Kp") == 0)){
       PID[selectedAxis].Kp = value;
       Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Kp);
     }
-    else if((strcmp(argv[2], "ki") == 0) || (strcmp(argv[2], "Ki"))){
+    else if((strcmp(argv[2], "ki") == 0) || (strcmp(argv[2], "Ki") == 0)){
       PID[selectedAxis].Ki = value;
       Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Ki);
     }
-    else if((strcmp(argv[2], "kd") == 0) || (strcmp(argv[2], "Kd"))){
+    else if((strcmp(argv[2], "kd") == 0) || (strcmp(argv[2], "Kd") == 0)){
       PID[selectedAxis].Kd = value;
       Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Kd);
     }
@@ -897,6 +897,7 @@ void printDelay(uint16_t dt){
   else if(cnt == 500){
     Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
     Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
+    Serial.printf("motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
   }
 }
 
