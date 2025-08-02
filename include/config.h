@@ -45,12 +45,12 @@ float B_gyro = 0.17;       //Gyro LP filter paramter, (MPU6050 default: 0.1. MPU
 // end Filter parameters
 
 // IMU ERROR
-#define AccErrorX  (0.00)
-#define AccErrorY  (0.03)
+#define AccErrorX  (-0.17)
+#define AccErrorY  (-0.34)
 #define AccErrorZ  (0.81)
-#define GyroErrorX (-0.02)
-#define GyroErrorY (0.02)
-#define GyroErrorZ (0.02)
+#define GyroErrorX (0.00)
+#define GyroErrorY (-0.03)
+#define GyroErrorZ (0.01)
 
 //PID controller 
 //Controller parameters (take note of defaults before modifying!):
@@ -95,9 +95,9 @@ typedef struct imu_6DOF {
 imu_6DOF imu;
 
 float rotationMtrx[nOfAxisNames][nOfAxisNames] = {
-  {0.997436643, 0.069494411, 0.017052190},
-  {-0.069071874, 0.997317433, -0.024229791},
-  {-0.018690281, 0.022989852, 0.999561012}
+  {0.999996662, -0.000075285, -0.002587651},
+  {0.000082389, 0.999996245, 0.002745268},
+  {0.002587434, -0.002745472, 0.999992907}
 };
 
 typedef struct stPID {

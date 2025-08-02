@@ -283,7 +283,7 @@ void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, fl
 
   //Compute angles
   attitude[roll].estimate   = atan2(q0 * q1 + q2 * q3, 0.5f - q1 * q1 - q2 * q2) * 57.29577951;                   //degrees
-  attitude[pitch].estimate  = -asin(constrain(-2.0f * (q1 * q3 - q0 * q2), -0.999999, 0.999999)) * 57.29577951;  //degrees
+  attitude[pitch].estimate  = asin(constrain(-2.0f * (q1 * q3 - q0 * q2), -0.999999, 0.999999)) * 57.29577951;  //degrees
   attitude[yaw].estimate    = -atan2(q1 * q2 + q0 * q3, 0.5f - q2 * q2 - q3 * q3) * 57.29577951;                   //degrees
 
 }
@@ -532,7 +532,7 @@ void calculate_IMU_error(void){
   Serial.print("float AcY = ");
   Serial.print(AcY);
   Serial.println(";");
-  Serial.print("float AccErrorZ = ");
+  Serial.print("float AcZ = ");
   Serial.print(AcZ);
   Serial.println(";");
   
@@ -801,7 +801,7 @@ int8_t analyzeMessage(char* pMessage){
     computeRotationMatrix(rotationMtrx, offset);
     Serial.printf("updated rotation Matrix!\n");
   }
-  else if(strcmp(argv[0], "restart")){
+  else if(strcmp(argv[0], "restart") == 0){
     Serial.printf("Restarting...\n");
     ESP.restart();
   }
@@ -852,7 +852,7 @@ int8_t analyzeMessage(char* pMessage){
     }
     else return ARGV_3RD_NOT_VALID;
   }
-  else if(strcmp(argv[0], "setPID")){
+  else if(strcmp(argv[0], "setPID") == 0){
     float value = ARGV_TO_FLOAT(argv[1]);
     if(value == NAN) return VALUE_NOT_VALID;
     for(uint8_t i = 0; i < nOfAxisNames; i++){
