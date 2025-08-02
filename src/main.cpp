@@ -145,10 +145,10 @@ void loop() {
   controlANGLE(attitude);
 
   // control mixer
-  motor[frontLeft]   = incomingReadings.throttle - PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
-  motor[frontRight]  = incomingReadings.throttle - PID[pitch].value - PID[roll].value - PID[yaw].value;  //Front Right
-  motor[backLeft]    = incomingReadings.throttle + PID[pitch].value - PID[roll].value + PID[yaw].value;  //Back Right
-  motor[backRight]   = incomingReadings.throttle + PID[pitch].value + PID[roll].value - PID[yaw].value;  //Back Left
+  motor[frontLeft]   = incomingReadings.throttle + PID[pitch].value - PID[roll].value + PID[yaw].value;  //Front Left
+  motor[frontRight]  = incomingReadings.throttle + PID[pitch].value + PID[roll].value - PID[yaw].value;  //Front Right
+  motor[backLeft]    = incomingReadings.throttle - PID[pitch].value - PID[roll].value - PID[yaw].value;  //Back Right
+  motor[backRight]   = incomingReadings.throttle - PID[pitch].value + PID[roll].value + PID[yaw].value;  //Back Left
 
   oneshot125_write(motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
 
@@ -693,12 +693,9 @@ void onDataRecv(const uint8_t* mac, const uint8_t* incomingData, const int len) 
     shutdown = true;
   }
   incomingReadings.throttle = constrain(incomingReadings.throttle, 0.0, 1.0);
-  incomingReadings.roll_pos_deg = constrain(incomingReadings.roll_pos_deg, -(MAX_ROLL), MAX_ROLL);
-  incomingReadings.pitch_pos_deg = constrain(incomingReadings.pitch_pos_deg, -(MAX_PITCH), MAX_PITCH);
-  incomingReadings.yaw_deg_per_s = constrain(incomingReadings.yaw_deg_per_s, -(MAX_YAW), MAX_YAW);
-  // !!!!
-  // convert to rad
-  // !!!!
+  attitude[roll].desired    = constrain(incomingReadings.roll_pos_deg, -(MAX_ROLL), MAX_ROLL);
+  attitude[pitch].desired   = constrain(incomingReadings.pitch_pos_deg, -(MAX_PITCH), MAX_PITCH);
+  attitude[yaw].desired     = constrain(incomingReadings.yaw_deg_per_s, -(MAX_YAW), MAX_YAW);
 
   // timerWrite(timerEStop, (TIMER_ALARMVAL_us - TIMER_CONNECTION_LOST_us));
   #ifdef TUNING
@@ -738,12 +735,12 @@ void send_data() {
   static uint8_t cnt = 0;
   // send data every 200th time = every 100ms
   if (cnt >= 199) {
+    cnt = 0;
     sendingData.fl = motor[frontLeft];
     sendingData.fr = motor[frontRight];
     sendingData.bl = motor[backLeft];
     sendingData.br = motor[backRight];
     esp_now_send(controllerAddress, (uint8_t*)&sendingData, sizeof(sendingData));
-    cnt = 0;
   } else cnt++;
 }
 

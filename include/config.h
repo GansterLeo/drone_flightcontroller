@@ -57,7 +57,7 @@ float B_gyro = 0.17;       //Gyro LP filter paramter, (MPU6050 default: 0.1. MPU
 #define i_limit 25.0    //Integrator saturation level, mostly for safety (default 25.0)
 #define MAX_ROLL 30.0   //Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 #define MAX_PITCH 30.0  //Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
-#define MAX_YAW 160.0   //Max yaw rate in deg/sec
+#define MAX_YAW 80.0   //Max yaw rate in deg/sec
 
 enum axisName{
   roll,
