@@ -16,7 +16,7 @@
 // Digital low pass filter selection
 #define DLPF_BANDWIDTH_184HZ  MPU6500::DLPF_BANDWIDTH_184HZ
 // Oneshot defines
-#define ESC_OFFSET        (4096 * 0.14)
+#define ESC_OFFSET        (4096 * 0.13)
 #define ONESHOT_TIMER     LEDC_TIMER_0
 #define LEDC_MODE         LEDC_LOW_SPEED_MODE
 #define ONESHOT0_CHANNEL  LEDC_CHANNEL_0
@@ -59,6 +59,7 @@ void send_data();
 int8_t analyzeMessage(char* pMessage);
 void serialCommunication();
 void printDelay(uint16_t dt);
+void printPID(stPID pPID[], size_t nOfElements);
 
 void setup() {
   Serial.begin(SERIAL_BAUDRATE);
@@ -66,18 +67,18 @@ void setup() {
   digitalWrite(INIT_READY_LED_PIN, LOW);
 
   Serial.printf("Hello\n");
-  PID[roll].Kp = 0.2;
-  PID[roll].Ki = 0.3;
-  PID[roll].Kd = 0.05;
+  PID[roll].Kp = 0.0;
+  PID[roll].Ki = 0.0;
+  PID[roll].Kd = 0.00;
   
-  PID[pitch].Kp = 0.2;
-  PID[pitch].Ki = 0.3;
-  PID[pitch].Kd = 0.05;
+  PID[pitch].Kp = 0.0;
+  PID[pitch].Ki = 0.;
+  PID[pitch].Kd = 0.;
 
 
-  PID[yaw].Kp = 0.3;
-  PID[yaw].Ki = 0.05;
-  PID[yaw].Kd = 0.00015;
+  PID[yaw].Kp = 0.;
+  PID[yaw].Ki = 0.;
+  PID[yaw].Kd = 0.;
   // put your setup code here, to run once:
   //checkBattery();
   spiBus.begin(SPIBUS_SCK, SPIBUS_MISO, SPIBUS_MOSI, IMU_CS);                         // SCK, MISO, MOSI, SS
@@ -783,7 +784,13 @@ int8_t analyzeMessage(char* pMessage){
 
   char *token = strtok(pMessage, " \t\r\n");
   while (token && argc < 8) {
-      argv[argc++] = token;
+      argv[argc] = token;
+      if(argc > 0){
+        argv[argc] -= 1;  // replace last character of the pre argument with \0
+        *argv[argc] = '\0';
+        argv[argc] += 1;
+      }
+      argc++;
       token = strtok(NULL, " \t\r\n");
   }
   if(strcmp(argv[0], "setPos") == 0){
@@ -794,7 +801,67 @@ int8_t analyzeMessage(char* pMessage){
     computeRotationMatrix(rotationMtrx, offset);
     Serial.printf("updated rotation Matrix!\n");
   }
-  return 1;
+  else if(strcmp(argv[0], "restart")){
+    Serial.printf("Restarting...\n");
+    ESP.restart();
+  }
+  else if(strcmp(argv[0], "throttle") == 0){
+    float value = ARGV_TO_FLOAT(argv[1]);
+    if(value == NAN) return VALUE_NOT_VALID;
+    incomingReadings.throttle = value;
+    Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
+  }
+  else if(strcmp(argv[0], "print") == 0){
+    if(strcmp(argv[1], "pid") == 0){
+      printPID(PID, nOfAxisNames);
+    }
+  }
+  else if(strcmp(argv[0], "pid") == 0){
+    // check if the entered value is even valid othervise continuing is unneccessary
+    float value = ARGV_TO_FLOAT(argv[3]);
+    if(value == NAN) return VALUE_NOT_VALID;
+
+    axisName selectedAxis; 
+    switch(*argv[1]){
+      case 'p':
+      case 'P':
+        selectedAxis = pitch;
+        break;
+      case 'r':
+      case 'R':
+        selectedAxis = roll;
+        break;
+      case 'y':
+      case 'Y':
+        selectedAxis = yaw;
+        break;
+      default:
+        return ARGV_2ND_NOT_VALID;
+    }
+    if((strcmp(argv[2], "kp") == 0) || (strcmp(argv[2], "Kp"))){
+      PID[selectedAxis].Kp = value;
+      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Kp);
+    }
+    else if((strcmp(argv[2], "ki") == 0) || (strcmp(argv[2], "Ki"))){
+      PID[selectedAxis].Ki = value;
+      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Ki);
+    }
+    else if((strcmp(argv[2], "kd") == 0) || (strcmp(argv[2], "Kd"))){
+      PID[selectedAxis].Kd = value;
+      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Kd);
+    }
+    else return ARGV_3RD_NOT_VALID;
+  }
+  else if(strcmp(argv[0], "setPID")){
+    float value = ARGV_TO_FLOAT(argv[1]);
+    if(value == NAN) return VALUE_NOT_VALID;
+    for(uint8_t i = 0; i < nOfAxisNames; i++){
+      PID[i].Kp = value;
+      PID[i].Ki = value;
+      PID[i].Kd = value;
+    }
+  }
+  return SUCCESS;
 }
 
 void serialCommunication(){
@@ -807,7 +874,10 @@ void serialCommunication(){
     if(incomingChar == '\n' or incomingChar == '\0'){
       messageBuf[currentIdx] = '\0';
       currentIdx = 0;
-      analyzeMessage(messageBuf);
+      int8_t error = analyzeMessage(messageBuf);
+      if(error != SUCCESS){
+        Serial.printf("SERIAL ERROR: %d", error);
+      };
       messageBuf[0] = '\0'; // clear message
     }
   }
@@ -826,5 +896,17 @@ void printDelay(uint16_t dt){
   }
   else if(cnt == 500){
     Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
   }
+}
+
+void printPID(stPID pPID[], size_t nOfElements){
+  Serial.printf("PID values\n");
+      for(uint8_t i = 0; i < nOfElements; i++){
+        Serial.printf("axis: %d\n", i);
+        Serial.printf("\tKp: %10.8f\n", pPID[i].Kp);
+        Serial.printf("\tKi: %10.8f\n", pPID[i].Ki);
+        Serial.printf("\tKd: %10.8f\n", pPID[i].Kd);
+      }
+      Serial.printf("\n");
 }

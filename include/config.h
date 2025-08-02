@@ -2,7 +2,7 @@
 #define DRONE_DATA_V5_1_H
 #include <stdint.h>
 
-#define TUNING
+// #define TUNING
 #define DEBUGGING
 
 // GPIO
@@ -58,6 +58,13 @@ float B_gyro = 0.17;       //Gyro LP filter paramter, (MPU6050 default: 0.1. MPU
 #define MAX_ROLL 30.0   //Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 #define MAX_PITCH 30.0  //Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 #define MAX_YAW 80.0   //Max yaw rate in deg/sec
+
+enum serialCommunicationERROR{
+  SUCCESS = 0,
+  VALUE_NOT_VALID = -1,
+  ARGV_3RD_NOT_VALID = -2,
+  ARGV_2ND_NOT_VALID = -3
+};
 
 enum axisName{
   roll,
@@ -129,10 +136,8 @@ typedef struct data_drone_to_controller {
   float yaw_pos_deg;    // actual yaw position of the drone
   uint8_t error;        // 0 if no error accured
   uint8_t status;       // MSB = if TUNING is active
-#ifdef TUNING
   int16_t out[3];
   uint16_t fl, fr, bl, br;
-#endif
 } data_drone_to_controller;
 
 #endif
