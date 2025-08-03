@@ -894,11 +894,21 @@ void printDelay(uint16_t dt){
     dt_mean /= 1000;
     Serial.println(dt_mean);
   }
+  #ifndef SERIAL_BOOST
   else if(cnt == 500){
     Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
     Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
     Serial.printf("motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    Serial.printf("%05dus\n", (uint)micros()-prev_micros);
   }
+  #else // print every 4 cycles
+  else if((cnt % 4) == 0){
+    Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
+    Serial.printf("motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    Serial.printf("%05dus\n", (uint)micros()-prev_micros);
+  }
+  #endif
 }
 
 void printPID(stPID pPID[], size_t nOfElements){

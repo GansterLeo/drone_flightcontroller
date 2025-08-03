@@ -4,6 +4,7 @@
 
 // #define TUNING
 #define DEBUGGING
+#define SERIAL_BOOST
 
 // GPIO
 #define IMU_CS              05
