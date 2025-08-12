@@ -447,10 +447,10 @@ uint8_t getIMUdata(void) {
   imu.ay = newFrame[1] - AccErrorY;
   imu.az = newFrame[2] - AccErrorZ;
 
-  //LP filter accelerometer data
-  imu.ax = ((1.0 - B_accel) * axPrev) + (B_accel * imu.ax);
-  imu.ay = ((1.0 - B_accel) * ayPrev) + (B_accel * imu.ay);
-  imu.az = ((1.0 - B_accel) * azPrev) + (B_accel * imu.az);
+  // LP filter accelerometer data
+  // imu.ax = ((1.0 - B_accel) * axPrev) + (B_accel * imu.ax);
+  // imu.ay = ((1.0 - B_accel) * ayPrev) + (B_accel * imu.ay);
+  // imu.az = ((1.0 - B_accel) * azPrev) + (B_accel * imu.az);
   axPrev = imu.ax;
   ayPrev = imu.ay;
   azPrev = imu.az;
@@ -464,10 +464,10 @@ uint8_t getIMUdata(void) {
   imu.gy = (rawData[1] * RAD_TO_DEG) - GyroErrorY;
   imu.gz = (rawData[2] * RAD_TO_DEG) - GyroErrorZ;
 
-  //LP filter gyro data
-  imu.gx = ((1.0 - B_gyro) * gxPrev) + (B_gyro * imu.gx);
-  imu.gy = ((1.0 - B_gyro) * gyPrev) + (B_gyro * imu.gy);
-  imu.gz = ((1.0 - B_gyro) * gzPrev) + (B_gyro * imu.gz);
+  // //LP filter gyro data
+  // imu.gx = ((1.0 - B_gyro) * gxPrev) + (B_gyro * imu.gx);
+  // imu.gy = ((1.0 - B_gyro) * gyPrev) + (B_gyro * imu.gy);
+  // imu.gz = ((1.0 - B_gyro) * gzPrev) + (B_gyro * imu.gz);
   gxPrev = imu.gx;
   gyPrev = imu.gy;
   gzPrev = imu.gz;
@@ -901,13 +901,13 @@ void printDelay(uint16_t dt){
     Serial.printf("motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
     Serial.printf("%05dus\n", (uint)micros()-prev_micros);
   }
-  #else // print every 4 cycles
-  else if((cnt % 4) == 0){
-    Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
-    Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
-    Serial.printf("motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
-    Serial.printf("%05dus\n", (uint)micros()-prev_micros);
-  }
+  #else
+    Serial.printf("%5.3f,%5.3f,%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    // Serial.printf("roll:%5.3f,pitch:%5.3f,yaw:%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    //Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
+    //Serial.printf("mfl:%5.3f,fr:%5.3f,bl:%5.3f,br:%5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    //Serial.printf("%05dus\n", (uint)micros()-prev_micros);
+  
   #endif
 }
 

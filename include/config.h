@@ -23,7 +23,7 @@
 // end GPIO
 
 // defines
-#define SERIAL_BAUDRATE 250000
+#define SERIAL_BAUDRATE 1500000
 #define MAX_MSSG_SIZE 100
 #ifndef DEG_TO_RAD
 #define DEG_TO_RAD (PI / 180)

@@ -5,7 +5,9 @@ import numpy as np
 import serial as sr
 
 comPort = 'COM3'
-MAX_BUFFER_SIZE = 4000
+baudrate = 1500000
+refreshrate = 50
+MAX_BUFFER_SIZE = 12000
 
 # Global variables - separate buffers for each axis
 pitch_data = np.zeros(MAX_BUFFER_SIZE)
@@ -71,7 +73,7 @@ backgrounds = [
 ]
 
 # Serial setup
-s = sr.Serial(comPort, 250000)
+s = sr.Serial(comPort, baudrate)
 s.reset_input_buffer()
 
 def plot_data():
@@ -146,7 +148,7 @@ def plot_data():
             ax3.draw_artist(yaw_line)
             canvas.blit(ax3.bbox)
     
-    root.after(1, plot_data)
+    root.after(20, plot_data)
 
 def plot_start():
     global cond
