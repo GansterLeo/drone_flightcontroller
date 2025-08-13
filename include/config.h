@@ -2,6 +2,8 @@
 #define DRONE_DATA_V5_1_H
 #include <stdint.h>
 
+#define SAMPLETIME_us 500
+
 // #define TUNING
 #define DEBUGGING
 #define SERIAL_BOOST
@@ -106,6 +108,8 @@ typedef struct stPID {
   float value;
 } stPID;
 stPID PID[nOfAxisNames];
+
+float pidResult[nOfAxisNames] = {0};
 
 // esp now
 uint8_t controllerAddress[] = { 0xd4, 0x8a, 0xfc, 0x5f, 0xf0, 0x80 };

@@ -4,6 +4,7 @@
 #include "config.h"
 #include "MPU6500.h"
 #include "driver/ledc.h"
+#include "QuickPID.h"
 
 #include <WiFi.h>
 #include <esp_now.h>
@@ -61,24 +62,35 @@ void serialCommunication();
 void printDelay(uint16_t dt);
 void printPID(stPID pPID[], size_t nOfElements);
 
+QuickPID pid[nOfAxisNames];
+
+void initPID(QuickPID* pPid, float* pInput, float* pOutput, float* pSetpoint, const float Kp, const float Ki, const float Kd){
+  pPid->SetInOutSetParameter(pInput, pOutput, pSetpoint);
+  pPid->SetOutputLimits(-1.0, 1.0);
+  pPid->SetMode(QuickPID::Control::automatic);
+  pPid->SetTunings(Kp, Ki, Kd, QuickPID::pMode::pOnError, QuickPID::dMode::dOnMeas, QuickPID::iAwMode::iAwCondition);
+  pPid->SetControllerDirection(QuickPID::Action::direct);
+  pPid->SetSampleTimeUs(SAMPLETIME_us);
+  pPid->Initialize();
+}
+
 void setup() {
   Serial.begin(SERIAL_BAUDRATE);
   pinMode(INIT_READY_LED_PIN, OUTPUT);
   digitalWrite(INIT_READY_LED_PIN, LOW);
 
   Serial.printf("Hello\n");
-  PID[roll].Kp = 0.0;
-  PID[roll].Ki = 0.0;
-  PID[roll].Kd = 0.00;
-  
-  PID[pitch].Kp = 0.0;
-  PID[pitch].Ki = 0.;
-  PID[pitch].Kd = 0.;
 
+  initPID(&(pid[roll]), 
+          &(attitude[roll].estimate), &pidResult[roll], &(attitude[roll].desired), 
+          0, 0, 0);
+  initPID(&(pid[pitch]), 
+          &(attitude[pitch].estimate), &pidResult[pitch], &(attitude[pitch].desired), 
+          0, 0, 0);
+  initPID(&(pid[yaw]), 
+          &(attitude[yaw].estimate), &pidResult[yaw], &(attitude[yaw].desired), 
+          0, 0, 0);
 
-  PID[yaw].Kp = 0.;
-  PID[yaw].Ki = 0.;
-  PID[yaw].Kd = 0.;
   // put your setup code here, to run once:
   //checkBattery();
   spiBus.begin(SPIBUS_SCK, SPIBUS_MISO, SPIBUS_MOSI, IMU_CS);                         // SCK, MISO, MOSI, SS
@@ -143,13 +155,18 @@ void loop() {
   else {
     Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);  //Updates roll_IMU, pitch_IMU, and yaw_IMU angle estimates (degrees)
   }
-  controlANGLE(attitude);
+
+  // the compute() function does only update after the sample time is reached.
+  // Therefore we have to stay in the loop until every pid controller has updated itself.
+  for(uint8_t i=0; i <= yaw;){
+    if(pid[i].Compute() == true) i++;
+  }
 
   // control mixer
-  motor[frontLeft]   = incomingReadings.throttle + PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
-  motor[frontRight]  = incomingReadings.throttle + PID[pitch].value - PID[roll].value - PID[yaw].value;  //Front Right
-  motor[backLeft]    = incomingReadings.throttle - PID[pitch].value + PID[roll].value - PID[yaw].value;  //Back Right
-  motor[backRight]   = incomingReadings.throttle - PID[pitch].value - PID[roll].value + PID[yaw].value;  //Back Left
+  motor[frontLeft]   = incomingReadings.throttle + pidResult[pitch] + pidResult[roll] + pidResult[yaw];  //Front Left
+  motor[frontRight]  = incomingReadings.throttle + pidResult[pitch] - pidResult[roll] - pidResult[yaw];  //Front Right
+  motor[backLeft]    = incomingReadings.throttle - pidResult[pitch] + pidResult[roll] - pidResult[yaw];  //Back Right
+  motor[backRight]   = incomingReadings.throttle - pidResult[pitch] - pidResult[roll] + pidResult[yaw];  //Back Left
 
   oneshot125_write(motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
 
@@ -161,7 +178,7 @@ void loop() {
   // Serial.println(dt*1000000);
   // Serial.println(micros() - prev_micros);
   printDelay(micros() - prev_micros);
-  loopRate(2000);
+  loopRate(1000000/SAMPLETIME_us);
 }
 
 void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]){
@@ -839,16 +856,16 @@ int8_t analyzeMessage(char* pMessage){
         return ARGV_2ND_NOT_VALID;
     }
     if((strcmp(argv[2], "kp") == 0) || (strcmp(argv[2], "Kp") == 0)){
-      PID[selectedAxis].Kp = value;
-      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Kp);
+      pid[selectedAxis].SetTunings(value, pid[selectedAxis].GetKi(), pid[selectedAxis].GetKd());
+      Serial.printf("Kp: %05.3f\n", pid[selectedAxis].GetKp());
     }
     else if((strcmp(argv[2], "ki") == 0) || (strcmp(argv[2], "Ki") == 0)){
-      PID[selectedAxis].Ki = value;
-      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Ki);
+      pid[selectedAxis].SetTunings(pid[selectedAxis].GetKp(), value, pid[selectedAxis].GetKd());
+      Serial.printf("Ki: %05.3f\n", pid[selectedAxis].GetKi());
     }
     else if((strcmp(argv[2], "kd") == 0) || (strcmp(argv[2], "Kd") == 0)){
-      PID[selectedAxis].Kd = value;
-      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Kd);
+      pid[selectedAxis].SetTunings(pid[selectedAxis].GetKp(), pid[selectedAxis].GetKi(), value);
+      Serial.printf("Kd: %05.3f\n", pid[selectedAxis].GetKd());
     }
     else return ARGV_3RD_NOT_VALID;
   }
@@ -856,9 +873,7 @@ int8_t analyzeMessage(char* pMessage){
     float value = ARGV_TO_FLOAT(argv[1]);
     if(value == NAN) return VALUE_NOT_VALID;
     for(uint8_t i = 0; i < nOfAxisNames; i++){
-      PID[i].Kp = value;
-      PID[i].Ki = value;
-      PID[i].Kd = value;
+      pid[i].SetTunings(value, value, value);
     }
   }
   return SUCCESS;
