@@ -82,13 +82,13 @@ void setup() {
   Serial.printf("Hello\n");
 
   initPID(&(pid[roll]), 
-          &(attitude[roll].estimate), &pidResult[roll], &(attitude[roll].desired), 
+          &(attitude[roll].estimate), &(pidResult[roll]), &(attitude[roll].desired), 
           0, 0, 0);
   initPID(&(pid[pitch]), 
-          &(attitude[pitch].estimate), &pidResult[pitch], &(attitude[pitch].desired), 
+          &(attitude[pitch].estimate), &(pidResult[pitch]), &(attitude[pitch].desired), 
           0, 0, 0);
   initPID(&(pid[yaw]), 
-          &(attitude[yaw].estimate), &pidResult[yaw], &(attitude[yaw].desired), 
+          &(attitude[yaw].estimate), &(pidResult[yaw]), &(attitude[yaw].desired), 
           0, 0, 0);
 
   // put your setup code here, to run once:
@@ -917,7 +917,7 @@ void printDelay(uint16_t dt){
     Serial.printf("%05dus\n", (uint)micros()-prev_micros);
   }
   #else
-    Serial.printf("%5.3f,%5.3f,%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    if((cnt%4) == 0)Serial.printf("%5.3f,%5.3f,%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
     // Serial.printf("roll:%5.3f,pitch:%5.3f,yaw:%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
     //Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
     //Serial.printf("mfl:%5.3f,fr:%5.3f,bl:%5.3f,br:%5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);

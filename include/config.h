@@ -6,7 +6,7 @@
 
 // #define TUNING
 #define DEBUGGING
-#define SERIAL_BOOST
+//#define SERIAL_BOOST
 
 // GPIO
 #define IMU_CS              05
@@ -25,7 +25,7 @@
 // end GPIO
 
 // defines
-#define SERIAL_BAUDRATE 1500000
+#define SERIAL_BAUDRATE 1000000
 #define MAX_MSSG_SIZE 100
 #ifndef DEG_TO_RAD
 #define DEG_TO_RAD (PI / 180)
