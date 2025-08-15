@@ -4,7 +4,7 @@
 
 // #define TUNING
 #define DEBUGGING
-#define SERIAL_BOOST
+// #define SERIAL_BOOST
 
 // GPIO
 #define IMU_CS              05
@@ -23,7 +23,7 @@
 // end GPIO
 
 // defines
-#define SERIAL_BAUDRATE 1500000
+#define SERIAL_BAUDRATE 1000000
 #define MAX_MSSG_SIZE 100
 #ifndef DEG_TO_RAD
 #define DEG_TO_RAD (PI / 180)
@@ -55,10 +55,11 @@ float B_gyro = 0.17;       //Gyro LP filter paramter, (MPU6050 default: 0.1. MPU
 
 //PID controller 
 //Controller parameters (take note of defaults before modifying!):
-#define i_limit 25.0    //Integrator saturation level, mostly for safety (default 25.0)
+#define i_limit 0.2
 #define MAX_ROLL 30.0   //Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 #define MAX_PITCH 30.0  //Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 #define MAX_YAW 80.0   //Max yaw rate in deg/sec
+#define PID_D_LOWPASS 0.93
 
 enum serialCommunicationERROR{
   SUCCESS = 0,

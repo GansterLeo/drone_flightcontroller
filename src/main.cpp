@@ -67,13 +67,13 @@ void setup() {
   digitalWrite(INIT_READY_LED_PIN, LOW);
 
   Serial.printf("Hello\n");
-  PID[roll].Kp = 0.0;
-  PID[roll].Ki = 0.0;
-  PID[roll].Kd = 0.00;
+  PID[roll].Kp = 0.;
+  PID[roll].Ki = 0.;
+  PID[roll].Kd = 0.;
   
-  PID[pitch].Kp = 0.0;
-  PID[pitch].Ki = 0.;
-  PID[pitch].Kd = 0.;
+  PID[pitch].Kp = 0.00140000;
+  PID[pitch].Ki = 0.14000000;
+  PID[pitch].Kd = 0.00150000;
 
 
   PID[yaw].Kp = 0.;
@@ -122,6 +122,7 @@ void setup() {
   }
   oneshot125_write(0.0f, 0.0f, 0.0f, 0.0f);
   // end test motors
+  calibrateAttitude();
 
   Serial.printf("Initialisation done!\n");
 
@@ -302,9 +303,16 @@ void controlANGLE(stAttitude pAttitude[]) {
    */
 
   // definition static integrals
-  static float integral_roll = 0;
-  static float integral_pitch = 0;
-  static float integral_yaw = 0;
+  static double integral_roll = 0;
+  static double integral_pitch = 0;
+  static double integral_yaw = 0;
+  // definition of previous errors
+  static float prevErrorRoll = 0;
+  static float prevErrorPitch = 0;
+  static float prevErrorYaw = 0;
+  // derivative terms
+  static float derivative[3] = {0};
+
 
   if (incomingReadings.throttle < 0.06) {  //Don't let integrator build if throttle is too low (<6%)
     integral_roll = 0;
@@ -316,27 +324,28 @@ void controlANGLE(stAttitude pAttitude[]) {
   float error_roll = pAttitude[roll].desired - (pAttitude[roll].estimate);
   integral_roll += error_roll * dt;
   integral_roll = constrain(integral_roll, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
-
-  PID[roll].value = 0.01 * ((PID[roll].Kp * error_roll) + (PID[roll].Ki * integral_roll) - (PID[roll].Kd * imu.gx));  //Scaled by .01 to bring within -1 to 1 range
+  derivative[roll] = (1-PID_D_LOWPASS)*derivative[roll] + PID_D_LOWPASS*(error_roll - prevErrorRoll)/dt; // calculate derivative and lowpass filter it
+  PID[roll].value = ((PID[roll].Kp * error_roll) + (PID[roll].Ki * integral_roll) + (PID[roll].Kd * derivative[roll])); 
+  prevErrorRoll = error_roll;
 
   //Pitch
   float error_pitch = pAttitude[pitch].desired - (pAttitude[pitch].estimate);
   integral_pitch += error_pitch * dt;
   integral_pitch = constrain(integral_pitch, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
-
-  PID[pitch].value = .01 * ((PID[pitch].Kp * error_pitch) + (PID[pitch].Ki * integral_pitch) - (PID[pitch].Kd * imu.gy));  //Scaled by .01 to bring within -1 to 1 range
+  derivative[pitch] = (1-PID_D_LOWPASS)*derivative[pitch] + PID_D_LOWPASS*(error_pitch - prevErrorPitch) / dt; // calculate derivative and lowpass filter it
+  PID[pitch].value = ((PID[pitch].Kp * error_pitch) + (PID[pitch].Ki * integral_pitch) + (PID[pitch].Kd * derivative[pitch]));  
+  prevErrorPitch = error_pitch;
 
   //Yaw, stablize on rate from GyroZ
-  static float error_yaw_prev = 0;
   float error_yaw = pAttitude[yaw].desired - imu.gz;
   integral_yaw += error_yaw * dt;
   integral_yaw = constrain(integral_yaw, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
-  float derivative_yaw = (error_yaw - error_yaw_prev) / dt;
+  derivative[yaw] = (1-PID_D_LOWPASS)*derivative[yaw] + PID_D_LOWPASS*(error_yaw - prevErrorYaw) / dt;
 
-  PID[yaw].value = .01 * ((PID[yaw].Kp * error_yaw) + (PID[yaw].Ki * integral_yaw) + (PID[yaw].Kd * derivative_yaw));  //Scaled by .01 to bring within -1 to 1 range
+  PID[yaw].value = ((PID[yaw].Kp * error_yaw) + (PID[yaw].Ki * integral_yaw) + (PID[yaw].Kd * derivative[yaw]));  
 
   // update prev variables
-  error_yaw_prev = error_yaw;
+  prevErrorYaw = error_yaw;
 }
 
 void oneshot125_init(void) {
@@ -671,7 +680,7 @@ void calibrateAttitude() {
    * to boot. 
    */
   //Warm up IMU and madgwick filter in simulated main loop
-  for (int i = 0; i <= 10000; i++) {
+  for (int i = 0; i <= 20000; i++) {
     // unsigned long prev_time = current_time;
     // current_time = micros();
     // dt = (current_time - prev_time)/1000000.0;
