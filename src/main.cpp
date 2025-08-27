@@ -67,9 +67,9 @@ void setup() {
   digitalWrite(INIT_READY_LED_PIN, LOW);
 
   Serial.printf("Hello\n");
-  PID[roll].Kp = 0.;
-  PID[roll].Ki = 0.;
-  PID[roll].Kd = 0.;
+  PID[roll].Kp = 0.00140000;
+  PID[roll].Ki = 0.14000000;
+  PID[roll].Kd = 0.00150000;
   
   PID[pitch].Kp = 0.00140000;
   PID[pitch].Ki = 0.14000000;
@@ -750,6 +750,9 @@ void send_data() {
     sendingData.fr = motor[frontRight];
     sendingData.bl = motor[backLeft];
     sendingData.br = motor[backRight];
+    sendingData.pitch_pos_deg = attitude[pitch].estimate;
+    sendingData.roll_pos_deg = attitude[roll].estimate;
+    sendingData.yaw_pos_deg = attitude[yaw].estimate;
     esp_now_send(controllerAddress, (uint8_t*)&sendingData, sizeof(sendingData));
   } else cnt++;
 }
