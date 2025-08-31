@@ -127,7 +127,22 @@ void setup() {
   Serial.printf("Initialisation done!\n");
 
   digitalWrite(INIT_READY_LED_PIN, HIGH);
-  prev_micros = micros();
+
+  while(1){
+    // get current time
+    prev_micros = micros();
+    // clear message buffer
+    
+    // INPUT
+    if(getIMUdata() == 1) {
+      // communication to IMU failed
+    }
+
+    // COMPUTATION
+
+
+    // OUTPUT
+  }
 }
 
 void loop() {
