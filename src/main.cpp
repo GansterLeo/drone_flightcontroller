@@ -48,9 +48,9 @@ void oneshot125_init(void);
 void oneshot125_write(const float fl_vl, const float fr_vl, const float bl_vl, const float br_vl);
 void calculate_IMU_error();
 uint8_t getIMUdata(void);
-void loopRate(uint16_t freq);
+int8_t loopRate(uint16_t freq);
 float invSqrt(float x);
-void checkBattery(void);
+int8_t checkBattery(void);
 void init_wlcomm(void);
 void calibrateAttitude();
 void onDataRecv(const uint8_t* mac, const uint8_t* incomingData, const int len);
@@ -82,15 +82,7 @@ void setup() {
   // put your setup code here, to run once:
   //checkBattery();
   spiBus.begin(SPIBUS_SCK, SPIBUS_MISO, SPIBUS_MOSI, IMU_CS);                         // SCK, MISO, MOSI, SS
-  Serial.printf("Now IMU init\n");
-  Serial.printf("01 MPU.begin status: %d\n",                 mpu.begin());
-  Serial.printf("02 setAccelRange status: %d\n",             mpu.setAccelRange(ACCEL_RANGE_2G));
-  Serial.printf("03 setGyroRange status: %d\n",              mpu.setGyroRange(GYRO_RANGE_250DPS));
-  Serial.printf("04 setDlpfBandwidth status: %d\n",          mpu.setDlpfBandwidth(DLPF_BANDWIDTH_184HZ));
-  Serial.printf("05 set Data Output Rate status: %d\n",      mpu.setSrd(0)); // use default 1kHz 
-  Serial.printf("06 diabled data ready interrupt: %d\n",     mpu.disableDataReadyInterrupt());
 
-  Serial.printf("IMU init done, now oneshot125init\n");
   delay(3);
   oneshot125_init();
   oneshot125_write(0.0f, 0.0f, 0.0f, 0.0f);
@@ -128,24 +120,180 @@ void setup() {
 
   digitalWrite(INIT_READY_LED_PIN, HIGH);
 
+  computationState currentState = ST_initialization;
+  computationState prevState    = currentState;
+  
+  bool enableBatteryVoltControl = false;
+  
   while(1){
     // get current time
     prev_micros = micros();
+
     // clear message buffer
-    
+    char serialBuffer[SERIALBUFFER_SIZE] = "";
+
+    // state machine
+    bool strictCycletime            = true; // true if the cycletime musst be obeyed
+    bool enableImuDataCommunication = false;
+    bool enableMadgewick            = false;
+    bool enableControlangle         = false;
+    bool enableControlmixer         = false;
+    bool enableMotorOutput          = false;
+    switch(currentState){
+      case ST_initialization:
+        strictCycletime = false;
+        switch(prevState){
+          case ST_initialization:
+            currentState  = ST_imuInit;
+            prevState     = ST_initialization;
+            break;
+          case ST_imuInit:
+            currentState  = ST_attitudeCalibration;
+            prevState     = ST_initialization;
+            break;
+          case ST_attitudeCalibration:
+            currentState  = ST_motorTesting;
+            prevState     = ST_initialization;
+            break;
+          case ST_motorTesting:
+            currentState  = ST_flying;
+            prevState     = ST_initialization;
+            break;
+          default:
+            currentState  = ST_initialization;
+            prevState     = ST_initialization;
+        }
+        break;
+      case ST_imuInit:
+        strictCycletime = false;
+        sprintf(serialBuffer + strlen(serialBuffer), "\nNow IMU init\n");
+        sprintf(serialBuffer + strlen(serialBuffer), "01 MPU.begin status: %d\n",                 mpu.begin());
+        sprintf(serialBuffer + strlen(serialBuffer), "02 setAccelRange status: %d\n",             mpu.setAccelRange(ACCEL_RANGE_2G));
+        sprintf(serialBuffer + strlen(serialBuffer), "03 setGyroRange status: %d\n",              mpu.setGyroRange(GYRO_RANGE_250DPS));
+        sprintf(serialBuffer + strlen(serialBuffer), "04 setDlpfBandwidth status: %d\n",          mpu.setDlpfBandwidth(DLPF_BANDWIDTH_184HZ));
+        sprintf(serialBuffer + strlen(serialBuffer), "05 set Data Output Rate status: %d\n",      mpu.setSrd(0)); // use default 1kHz 
+        sprintf(serialBuffer + strlen(serialBuffer), "06 diabled data ready interrupt: %d\n",     mpu.disableDataReadyInterrupt());
+        sprintf(serialBuffer + strlen(serialBuffer), "IMU init done, now oneshot125init\n");
+        
+        prevState = currentState;
+        currentState = ST_initialization;
+        break;
+      case ST_attitudeCalibration:
+        enableImuDataCommunication  = true;
+        enableMadgewick             = true;
+
+        static uint16_t cnt = 0;
+        sprintf(serialBuffer + strlen(serialBuffer), "\natCal %05d:\n", cnt);
+
+        if (cnt >= 20000) {
+          cnt = 0;
+          prevState = currentState;
+          currentState = ST_initialization;
+        }
+        else cnt++;   
+        break;
+      case ST_motorTesting:
+        strictCycletime = false;
+        enableMotorOutput = true;
+        enableImuDataCommunication = true;
+        
+        static float cnt = 0;
+        static bool cntUp = true;
+        if(cnt >= MAX_TEST_THROTTLE){
+          cntUp = false;
+        }
+        cnt += (0.04 * dt) * cntUp? +1:-1;
+        if((cnt <= 0) && (!cntUp)){
+          cnt = 0;
+          prevState = currentState;
+          currentState = ST_initialization;
+        }
+
+        motor[frontLeft] = motor[frontRight] = motor[backLeft] = motor[backLeft] = cnt;
+        break;
+      case ST_resetPID:
+        enableImuDataCommunication = true;      
+        // yet not possible 
+
+        prevState = currentState;
+        currentState = ST_initialization;
+        break;
+      case ST_flying:
+        enableImuDataCommunication = true;
+        enableMadgewick            = true;
+        enableControlangle         = true;
+        enableControlmixer         = true;
+        enableMotorOutput          = true;
+
+        if(currentEvent == EV_emptyBattery){
+          currentEvent = EV_NONE;
+          prevState = currentState;
+          currentState = ST_emptyBattery;
+        }
+        break;
+      case ST_emptyBattery:
+        sprintf(serialBuffer + strlen(serialBuffer), "\nEMPTY BATTERY!!!\nUnable to fly\n");
+        // do something
+        break;
+      default:
+        ESP.restart();
+        break;
+    }
+   
     // INPUT
-    if(getIMUdata() == 1) {
-      // communication to IMU failed
+    if(enableImuDataCommunication){
+      if(getIMUdata() == 1) {
+        enableMadgewick = false;
+        // communication to IMU failed
+      }
+    }
+
+    serialCommunication(serialBuffer);
+
+    if(enableBatteryVoltControl) {
+      int8_t result = checkBattery();
+      currentEvent = result ? EV_emptyBattery : currentEvent;
     }
 
     // COMPUTATION
-
-
+    if(enableMadgewick)    Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);
+    if(enableControlangle) controlANGLE(attitude);
+    if(enableControlmixer){
+      motor[frontLeft]   = incomingReadings.throttle + PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
+      motor[frontRight]  = incomingReadings.throttle + PID[pitch].value - PID[roll].value - PID[yaw].value;  //Front Right
+      motor[backLeft]    = incomingReadings.throttle - PID[pitch].value + PID[roll].value - PID[yaw].value;  //Back Right
+      motor[backRight]   = incomingReadings.throttle - PID[pitch].value - PID[roll].value + PID[yaw].value;  //Back Left
+    }
+    
     // OUTPUT
+    if(enableMotorOutput){
+      oneshot125_write(motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    }
+    else {
+      oneshot125_write(0, 0, 0, 0);
+    }
+    send_data();
+    printDelay(serialBuffer, micros() - prev_micros);
+
+    serialBuffer[SERIALBUFFER_SIZE - 1] = '\0';
+    Serial.print(serialBuffer);
+
+    // cycletime control 
+    int8_t cycleCheckResult = loopRate(2000);
+    if((strictCycletime) && (cycleCheckResult == -1)){
+      Serial.printf("Violated cycletime constrains!\nRestarting...\n");
+      ESP.restart();
+    }
+
+    // calculate actual cycle time
+    dt = (micros() - prev_micros) / 1000000.0;
   }
 }
 
 void loop() {
+  Serial.print("Jumped out of while(1)!\nReseting...\n");
+  ESP.restart();
+
   // current_time = micros();
   // dt = (current_time - prev_micros)/1000000.0;
   prev_micros = micros();
@@ -574,7 +722,7 @@ void calculate_IMU_error(void){
 }
 
 
-void loopRate(uint16_t freq) {
+int8_t loopRate(uint16_t freq) {
   //DESCRIPTION: Regulate main loop rate to specified frequency in Hz
   /*
    * It's good to operate at a constant loop rate for filters to remain stable and whatnot. Interrupt routines running in the
@@ -585,11 +733,14 @@ void loopRate(uint16_t freq) {
    */
   float invFreq = (1.0 / freq) * 1000000.0;
   unsigned long checker = micros();
-
+  if(invFreq > (checker - prev_micros)){
+    return -1;
+  }
   //Sit in loop until appropriate time has passed
   while (invFreq > (checker - prev_micros)) {
     checker = micros();
   }
+  return 1;
 }
 
 float invSqrt(float x) {
@@ -614,25 +765,29 @@ float invSqrt(float x) {
   // return 1.0/sqrtf(x); //Teensy is fast enough to just take the compute penalty lol suck it arduino nano
 }
 
-/*
-void checkBattery(void){
-  static uint16_t batVoltage = 4095;
-  batVoltage = (uint16_t)((.8*batVoltage) + (.2*analogRead(BATTERY_VOLTAGE_PIN)));
-  if(batVoltage < 3100){
+
+int8_t checkBattery(void){
+  static float batVoltage = 12.6;
+  batVoltage = ((.8*batVoltage) + (.2*(analogRead(BATTERY_VOLTAGE_PIN) * (ADC_VOLTAGE/(float)ADC_RESOLUTION))));
+  if(batVoltage < 10){
     shutdown = true;
     sendingData.error = 1;
     sendingData.status |= (STAT_CRITICAL_LOW_VOLT | STAT_HALF_CAPACITY);
-  } else if(batVoltage < 3443){
+    return 0;
+  } else if(batVoltage < 11.09){
     sendingData.status |= STAT_CRITICAL_LOW_VOLT;
     sendingData.status &= ~STAT_HALF_CAPACITY;
-  } else if(batVoltage < 3583){
+    return 1;
+  } else if(batVoltage < 11.55){
     sendingData.status &= ~STAT_CRITICAL_LOW_VOLT;
     sendingData.status |= STAT_HALF_CAPACITY;
+    return 2;
   } else{
     sendingData.status &= ~(STAT_CRITICAL_LOW_VOLT | STAT_HALF_CAPACITY);
+    return 3;
   }
 }
-*/
+
 
 /*
   this function initialises esp_now long range
@@ -685,28 +840,6 @@ void init_wlcomm(void) {
     esp_now_add_peer(&peerInfo);
   #endif
   // end esp now
-}
-
-void calibrateAttitude() {
-  //DESCRIPTION: Used to warm up the main loop to allow the madwick filter to converge before commands can be sent to the actuators
-  //Assuming vehicle is powered up on level surface!
-  /*
-   * This function is used on startup to warm up the attitudeIMUFrame estimation and is what causes startup to take a few seconds
-   * to boot. 
-   */
-  //Warm up IMU and madgwick filter in simulated main loop
-  for (int i = 0; i <= 20000; i++) {
-    // unsigned long prev_time = current_time;
-    // current_time = micros();
-    // dt = (current_time - prev_time)/1000000.0;
-    if(getIMUdata() == 0) {
-      Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);
-    }
-    else{
-      Serial.println("SPI failed!");
-    }
-    loopRate(2000);  //do not exceed 2000Hz
-  }
 }
 
 // gets called, if esp recieves data
@@ -805,7 +938,7 @@ float ARGV_TO_FLOAT(char* p) {
   return neg ? -val : val;
 }
 
-int8_t analyzeMessage(char* pMessage){
+int8_t analyzeMessage(char* pMessage, char pSerialBuffer[]){
   char *argv[8];
   int argc = 0;
 
@@ -826,21 +959,21 @@ int8_t analyzeMessage(char* pMessage){
       offset[i] = attitude[i].estimate - ARGV_TO_FLOAT(argv[i + 1]);
     }
     computeRotationMatrix(rotationMtrx, offset);
-    Serial.printf("updated rotation Matrix!\n");
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "updated rotation Matrix!\n");
   }
   else if(strcmp(argv[0], "restart") == 0){
-    Serial.printf("Restarting...\n");
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "Restarting...\n");
     ESP.restart();
   }
   else if(strcmp(argv[0], "throttle") == 0){
     float value = ARGV_TO_FLOAT(argv[1]);
     if(value == NAN) return VALUE_NOT_VALID;
     incomingReadings.throttle = value;
-    Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "throttle: %05.4f\n", incomingReadings.throttle);
   }
   else if(strcmp(argv[0], "print") == 0){
     if(strcmp(argv[1], "pid") == 0){
-      printPID(PID, nOfAxisNames);
+      printPID(pSerialBuffer, PID, nOfAxisNames);
     }
   }
   else if(strcmp(argv[0], "pid") == 0){
@@ -867,15 +1000,15 @@ int8_t analyzeMessage(char* pMessage){
     }
     if((strcmp(argv[2], "kp") == 0) || (strcmp(argv[2], "Kp") == 0)){
       PID[selectedAxis].Kp = value;
-      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Kp);
+      sprintf(pSerialBuffer + strlen(pSerialBuffer), "Kp: %05.3f\n", PID[selectedAxis].Kp);
     }
     else if((strcmp(argv[2], "ki") == 0) || (strcmp(argv[2], "Ki") == 0)){
       PID[selectedAxis].Ki = value;
-      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Ki);
+      sprintf(pSerialBuffer + strlen(pSerialBuffer), "Kp: %05.3f\n", PID[selectedAxis].Ki);
     }
     else if((strcmp(argv[2], "kd") == 0) || (strcmp(argv[2], "Kd") == 0)){
       PID[selectedAxis].Kd = value;
-      Serial.printf("Kp: %05.3f\n", PID[selectedAxis].Kd);
+      sprintf(pSerialBuffer + strlen(pSerialBuffer), "Kp: %05.3f\n", PID[selectedAxis].Kd);
     }
     else return ARGV_3RD_NOT_VALID;
   }
@@ -891,7 +1024,7 @@ int8_t analyzeMessage(char* pMessage){
   return SUCCESS;
 }
 
-void serialCommunication(){
+void serialCommunication(char pSerialBuffer[]){
   if(Serial.available()){
     char incomingChar = Serial.read();
     Serial.printf("%c", incomingChar);
@@ -901,16 +1034,16 @@ void serialCommunication(){
     if(incomingChar == '\n' or incomingChar == '\0'){
       messageBuf[currentIdx] = '\0';
       currentIdx = 0;
-      int8_t error = analyzeMessage(messageBuf);
+      int8_t error = analyzeMessage(messageBuf, pSerialBuffer);
       if(error != SUCCESS){
-        Serial.printf("SERIAL ERROR: %d", error);
+        sprintf(pSerialBuffer + strlen(pSerialBuffer), "SERIAL ERROR: %d", error);
       };
       messageBuf[0] = '\0'; // clear message
     }
   }
 }
 
-void printDelay(uint16_t dt){
+void printDelay(char pSerialBuffer[], uint16_t dt){
   static uint16_t cnt = 0;
   static uint32_t dt_mean = 0;
   dt_mean += dt;
@@ -919,32 +1052,32 @@ void printDelay(uint16_t dt){
   if(cnt >= 1000){
     cnt = 0;
     dt_mean /= 1000;
-    Serial.println(dt_mean);
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "%d", dt_mean);
   }
   #ifndef SERIAL_BOOST
   else if(cnt == 500){
-    Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
-    Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
-    Serial.printf("motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
-    Serial.printf("%05dus\n", (uint)micros()-prev_micros);
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "throttle: %05.4f\n", incomingReadings.throttle);
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "%05dus\n", (uint)micros()-prev_micros);
   }
   #else
-    Serial.printf("%5.3f,%5.3f,%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
-    // Serial.printf("roll:%5.3f,pitch:%5.3f,yaw:%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
-    //Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
-    //Serial.printf("mfl:%5.3f,fr:%5.3f,bl:%5.3f,br:%5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
-    //Serial.printf("%05dus\n", (uint)micros()-prev_micros);
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "%5.3f,%5.3f,%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "roll:%5.3f,pitch:%5.3f,yaw:%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "throttle: %05.4f\n", incomingReadings.throttle);
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "mfl:%5.3f,fr:%5.3f,bl:%5.3f,br:%5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    sprintf(pSerialBuffer + strlen(pSerialBuffer), "%05dus\n", (uint)micros()-prev_micros);
   
   #endif
 }
 
-void printPID(stPID pPID[], size_t nOfElements){
-  Serial.printf("PID values\n");
+void printPID(char pSerialBuffer[], stPID pPID[], size_t nOfElements){
+  sprintf(pSerialBuffer + strlen(pSerialBuffer), "PID values\n");
       for(uint8_t i = 0; i < nOfElements; i++){
-        Serial.printf("axis: %d\n", i);
-        Serial.printf("\tKp: %10.8f\n", pPID[i].Kp);
-        Serial.printf("\tKi: %10.8f\n", pPID[i].Ki);
-        Serial.printf("\tKd: %10.8f\n", pPID[i].Kd);
+        sprintf(pSerialBuffer + strlen(pSerialBuffer), "axis: %d\n", i);
+        sprintf(pSerialBuffer + strlen(pSerialBuffer), "\tKp: %10.8f\n", pPID[i].Kp);
+        sprintf(pSerialBuffer + strlen(pSerialBuffer), "\tKi: %10.8f\n", pPID[i].Ki);
+        sprintf(pSerialBuffer + strlen(pSerialBuffer), "\tKd: %10.8f\n", pPID[i].Kd);
       }
-      Serial.printf("\n");
+      sprintf(pSerialBuffer + strlen(pSerialBuffer), "\n");
 }
