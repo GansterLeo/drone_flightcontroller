@@ -41,25 +41,27 @@ esp_now_peer_info_t peerInfo;
 
 // function declaration 
 void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]);
-void applyRotationMatrix(const stAttitude pInitialFrame[], stAttitude pNewFrame[], const float pRotationMtrx[][nOfAxisNames]);
+void applyRotationMatrix(const float pDataInitialFrame[], float pDataNewFrame[], const float pRotationMtrx[][nOfAxisNames]);
 void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq);
 void controlANGLE(stAttitude pAttitude[]);
 void oneshot125_init(void);
 void oneshot125_write(const float fl_vl, const float fr_vl, const float bl_vl, const float br_vl);
-void calculate_IMU_error();
 uint8_t getIMUdata(void);
+void calculate_IMU_error(void);
 int8_t loopRate(uint16_t freq);
 float invSqrt(float x);
 int8_t checkBattery(void);
 void init_wlcomm(void);
-void calibrateAttitude();
 void onDataRecv(const uint8_t* mac, const uint8_t* incomingData, const int len);
 void OnDataSent(const uint8_t* mac_addr, esp_now_send_status_t status);
-void send_data();
-int8_t analyzeMessage(char* pMessage);
-void serialCommunication();
-void printDelay(uint16_t dt);
-void printPID(stPID pPID[], size_t nOfElements);
+void send_data(void);
+int8_t charToInt(char c);
+float ARGV_TO_FLOAT(char* p);
+int8_t analyzeMessage(char* pMessage, char pSerialBuffer[]);
+void serialCommunication(char pSerialBuffer[]);
+void printDelay(char pSerialBuffer[], uint16_t dt);
+void printPID(char pSerialBuffer[], stPID pPID[], size_t nOfElements);
+
 
 void setup() {
   Serial.begin(SERIAL_BAUDRATE);
@@ -87,38 +89,7 @@ void setup() {
   oneshot125_init();
   oneshot125_write(0.0f, 0.0f, 0.0f, 0.0f);
 
-  Serial.printf("Oneshot125 init done, now esp now init\n");
-  init_wlcomm();
-
-  Serial.printf("calibrating attitudeIMUFrame\n");
-  calibrateAttitude();
-  // !!! comment out after errors are gethered
-  calculate_IMU_error();
-  
-  Serial.printf("Waiting 5s for motors to be initialised\n");
-  delay(5000);
-  Serial.printf("!!! testing motors !!!\n");
-  // test motors
-  // motors tart at 0.14
-  for (uint8_t k = 0; k < 0.1; k++) {
-    for (float i = 0.0f; i < .1f; i += 0.005f) {
-      delay(50);
-      oneshot125_write(i, i, i, i);
-      Serial.println(i);
-    }
-    for (float i = 0.1f; i > 0.0f; i -= 0.005f) {
-      delay(50);
-      oneshot125_write(i, i, i, i);
-      Serial.println(i);
-    }
-  }
-  oneshot125_write(0.0f, 0.0f, 0.0f, 0.0f);
-  // end test motors
-  calibrateAttitude();
-
-  Serial.printf("Initialisation done!\n");
-
-  digitalWrite(INIT_READY_LED_PIN, HIGH);
+ 
 
   computationState currentState = ST_initialization;
   computationState prevState    = currentState;
@@ -156,6 +127,8 @@ void setup() {
             prevState     = ST_initialization;
             break;
           case ST_motorTesting:
+            sprintf(serialBuffer + strlen(serialBuffer), "Initialisation done!\n");
+            digitalWrite(INIT_READY_LED_PIN, HIGH);
             currentState  = ST_flying;
             prevState     = ST_initialization;
             break;
@@ -182,34 +155,34 @@ void setup() {
         enableImuDataCommunication  = true;
         enableMadgewick             = true;
 
-        static uint16_t cnt = 0;
-        sprintf(serialBuffer + strlen(serialBuffer), "\natCal %05d:\n", cnt);
+        static uint16_t cntAttitude = 0;
+        sprintf(serialBuffer + strlen(serialBuffer), "\natCal %05d:\n", cntAttitude);
 
-        if (cnt >= 20000) {
-          cnt = 0;
+        if (cntAttitude >= 20000) {
+          cntAttitude = 0;
           prevState = currentState;
           currentState = ST_initialization;
         }
-        else cnt++;   
+        else cntAttitude++;   
         break;
       case ST_motorTesting:
         strictCycletime = false;
         enableMotorOutput = true;
         enableImuDataCommunication = true;
         
-        static float cnt = 0;
+        static float cntMotorThrottle = 0;
         static bool cntUp = true;
-        if(cnt >= MAX_TEST_THROTTLE){
+        if(cntMotorThrottle >= MAX_TEST_THROTTLE){
           cntUp = false;
         }
-        cnt += (0.04 * dt) * cntUp? +1:-1;
-        if((cnt <= 0) && (!cntUp)){
-          cnt = 0;
+        cntMotorThrottle += (0.04 * dt) * cntUp? +1:-1;
+        if((cntMotorThrottle <= 0) && (!cntUp)){
+          cntMotorThrottle = 0;
           prevState = currentState;
           currentState = ST_initialization;
         }
 
-        motor[frontLeft] = motor[frontRight] = motor[backLeft] = motor[backLeft] = cnt;
+        motor[frontLeft] = motor[frontRight] = motor[backLeft] = motor[backLeft] = cntMotorThrottle;
         break;
       case ST_resetPID:
         enableImuDataCommunication = true;      
@@ -293,39 +266,6 @@ void setup() {
 void loop() {
   Serial.print("Jumped out of while(1)!\nReseting...\n");
   ESP.restart();
-
-  // current_time = micros();
-  // dt = (current_time - prev_micros)/1000000.0;
-  prev_micros = micros();
-
-  //checkBattery();
-  
-  if(getIMUdata() == 1){
-    //Pulls raw gyro, accelerometer, and magnetometer data from IMU and LP filters to remove noise
-    Serial.printf("getIMUdata failed\n");
-  }
-  else {
-    Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);  //Updates roll_IMU, pitch_IMU, and yaw_IMU angle estimates (degrees)
-  }
-  controlANGLE(attitude);
-
-  // control mixer
-  motor[frontLeft]   = incomingReadings.throttle + PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
-  motor[frontRight]  = incomingReadings.throttle + PID[pitch].value - PID[roll].value - PID[yaw].value;  //Front Right
-  motor[backLeft]    = incomingReadings.throttle - PID[pitch].value + PID[roll].value - PID[yaw].value;  //Back Right
-  motor[backRight]   = incomingReadings.throttle - PID[pitch].value - PID[roll].value + PID[yaw].value;  //Back Left
-
-  oneshot125_write(motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
-
-  serialCommunication();
-
-  send_data();
-
-  // Serial.printf("p:%05.2f;r:%05.2f;y:%05.2f\n", attitudeIMUFrame[pitch].estimate, attitudeIMUFrame[roll].estimate, attitudeIMUFrame[yaw].estimate);
-  // Serial.println(dt*1000000);
-  // Serial.println(micros() - prev_micros);
-  printDelay(micros() - prev_micros);
-  loopRate(2000);
 }
 
 void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]){
