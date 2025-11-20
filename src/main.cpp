@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "MPU6500.h"
+#include "battery.h"
 #include "driver/ledc.h"
 
 #include <WiFi.h>
@@ -69,6 +70,7 @@ void setup() {
   Serial.begin(SERIAL_BAUDRATE);
   pinMode(INIT_READY_LED_PIN, OUTPUT);
   digitalWrite(INIT_READY_LED_PIN, LOW);
+  Battery battery(3, Battery::BATTERY_LIPO, 0.25, BATTERY_VOLTAGE_PIN);
 
   Serial.printf("Hello\n");
   PID[roll].Kp = 0.00140000;
@@ -107,40 +109,46 @@ void setup() {
     char tempBuffer[SERIALBUFFER_SIZE*2] = "";
 
     // state machine
-    bool strictCycletime            = true; // true if the cycletime musst be obeyed
+    bool strictCycletime            = false; // just currently set to false, later set back to default true // true if the cycletime musst be obeyed
     bool enableImuDataCommunication = false;
     bool enableMadgewick            = false;
     bool enableControlangle         = false;
     bool enableControlmixer         = false;
     bool enableMotorOutput          = false;
     switch(currentState){
-      case ST_initialization:
+      case ST_initialization:{
         strictCycletime = false;
         switch(prevState){
-          case ST_initialization:
+          case ST_initialization:{
             currentState  = ST_imuInit;
             prevState     = ST_initialization;
             break;
-          case ST_imuInit:
+          }
+          case ST_imuInit:{
             currentState  = ST_attitudeCalibration;
             prevState     = ST_initialization;
             break;
-          case ST_attitudeCalibration:
+          }
+          case ST_attitudeCalibration:{
             currentState  = ST_motorTesting;
             prevState     = ST_initialization;
             break;
-          case ST_motorTesting:
+          }
+          case ST_motorTesting:{
             sprintf(tempBuffer, "Initialisation done!\n");
             digitalWrite(INIT_READY_LED_PIN, HIGH);
             currentState  = ST_flying;
             prevState     = ST_initialization;
             break;
-          default:
+          }
+          default:{
             currentState  = ST_initialization;
             prevState     = ST_initialization;
+          }
         }
         break;
-      case ST_imuInit:
+      }
+      case ST_imuInit:{
         strictCycletime = false;
         sprintf(tempBuffer, "\nNow IMU init\n");
         addToBuffer(serialBuffer, tempBuffer);
@@ -162,7 +170,8 @@ void setup() {
         prevState = currentState;
         currentState = ST_initialization;
         break;
-      case ST_attitudeCalibration:
+      }
+      case ST_attitudeCalibration:{
         enableImuDataCommunication  = true;
         enableMadgewick             = true;
 
@@ -177,7 +186,8 @@ void setup() {
         }
         else cntAttitude++;   
         break;
-      case ST_motorTesting:
+      }
+      case ST_motorTesting:{
         strictCycletime = false;
         enableMotorOutput = true;
         enableImuDataCommunication = true;
@@ -196,14 +206,16 @@ void setup() {
 
         motor[frontLeft] = motor[frontRight] = motor[backLeft] = motor[backLeft] = cntMotorThrottle;
         break;
-      case ST_resetPID:
+      }
+      case ST_resetPID:{
         enableImuDataCommunication = true;      
         // yet not possible 
 
         prevState = currentState;
         currentState = ST_initialization;
         break;
-      case ST_flying:
+      }
+      case ST_flying:{
         enableImuDataCommunication = true;
         enableMadgewick            = true;
         enableControlangle         = true;
@@ -216,14 +228,17 @@ void setup() {
           currentState = ST_emptyBattery;
         }
         break;
-      case ST_emptyBattery:
+      }
+      case ST_emptyBattery:{
         sprintf(tempBuffer, "\nEMPTY BATTERY!!!\nUnable to fly\n");
         addToBuffer(serialBuffer, tempBuffer);
         // do something
         break;
-      default:
+      }
+      default:{
         ESP.restart();
         break;
+      }
     }
    
     // INPUT
@@ -688,13 +703,6 @@ void calculate_IMU_error(void){
 
 int8_t loopRate(uint16_t freq) {
   //DESCRIPTION: Regulate main loop rate to specified frequency in Hz
-  /*
-   * It's good to operate at a constant loop rate for filters to remain stable and whatnot. Interrupt routines running in the
-   * background cause the loop rate to fluctuate. This function basically just waits at the end of every loop iteration until 
-   * the correct time has passed since the start of the current loop for the desired loop rate in Hz. 2kHz is a good rate to 
-   * be at because the loop nominally will run between 2.8kHz - 4.2kHz. This lets us have a little room to add extra computations
-   * and remain above 2kHz, without needing to retune all of our filtering parameters.
-   */
   float invFreq = (1.0 / freq) * 1000000.0;
   unsigned long checker = micros();
   if(invFreq < (checker - prev_micros)){
@@ -729,20 +737,18 @@ float invSqrt(float x) {
   // return 1.0/sqrtf(x); //Teensy is fast enough to just take the compute penalty lol suck it arduino nano
 }
 
-
-int8_t checkBattery(void){
-  static float batVoltage = 12.6;
-  batVoltage = ((.8*batVoltage) + (.2*(analogRead(BATTERY_VOLTAGE_PIN) * (ADC_VOLTAGE/(float)ADC_RESOLUTION))));
-  if(batVoltage < 10){
+int8_t checkBattery(Battery *pBattery){
+  pBattery->update();
+  if(pBattery->getVoltage() < 10){
     shutdown = true;
     sendingData.error = 1;
     sendingData.status |= (STAT_CRITICAL_LOW_VOLT | STAT_HALF_CAPACITY);
     return 0;
-  } else if(batVoltage < 11.09){
+  } else if(pBattery->getVoltage() < 11.09){
     sendingData.status |= STAT_CRITICAL_LOW_VOLT;
     sendingData.status &= ~STAT_HALF_CAPACITY;
     return 1;
-  } else if(batVoltage < 11.55){
+  } else if(pBattery->getVoltage() < 11.55){
     sendingData.status &= ~STAT_CRITICAL_LOW_VOLT;
     sendingData.status |= STAT_HALF_CAPACITY;
     return 2;
@@ -751,7 +757,6 @@ int8_t checkBattery(void){
     return 3;
   }
 }
-
 
 /*
   this function initialises esp_now long range
