@@ -70,7 +70,7 @@ void setup() {
   Serial.begin(SERIAL_BAUDRATE);
   pinMode(INIT_READY_LED_PIN, OUTPUT);
   digitalWrite(INIT_READY_LED_PIN, LOW);
-  Battery battery(3, Battery::BATTERY_LIPO, 0.25, BATTERY_VOLTAGE_PIN);
+  Battery battery(3, Battery::BATTERY_LIPO, 0.25, BATTERY_VOLTAGE_PIN, &analogRead);
 
   Serial.printf("Hello\n");
   PID[roll].Kp = 0.00140000;

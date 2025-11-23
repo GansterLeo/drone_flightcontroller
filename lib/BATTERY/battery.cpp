@@ -1,5 +1,4 @@
 #include "battery.h"
-#include <Arduino.h>
 #include <map> 
 
 std::map<double, uint8_t> sOCLookUp {
@@ -26,15 +25,15 @@ std::map<double, uint8_t> sOCLookUp {
     {4.20, 100}
 };
 
-Battery::Battery(uint8_t nOfCells, enum BatteryType type, double scaleFactor, uint8_t pinNumber){
-    _pin = pinNumber;
+Battery::Battery(uint8_t nOfCells, BatteryType type, double scaleFactor, uint8_t pinNumber, uint16_t(*analogReadFunc)(uint8_t pinNumber)) : _analogRead(analogReadFunc) {
     _nOfCells = nOfCells;
     switch(type){
-        BATTERY_LIION: _batteryVoltage=LIION_MAX_CELL_VOLTAGE*nOfCells; break;
-        BATTERY_LIPO:  _batteryVoltage=LIPO_MAX_CELL_VOLTAGE*nOfCells;  break;
-        default:       _batteryVoltage=0;                               break;
+        case BATTERY_LIION: _batteryVoltage=LIION_MAX_CELL_VOLTAGE*nOfCells; break;
+        case BATTERY_LIPO:  _batteryVoltage=LIPO_MAX_CELL_VOLTAGE*nOfCells;  break;
+        default:            _batteryVoltage=0;                               break;
     }
     setVoltageFactor(scaleFactor);
+    _pin = pinNumber;
 }
 
 int8_t Battery::setVoltageFactor(double scaleFactor){
@@ -47,7 +46,7 @@ double Battery::getPercentageFactor() const {
 }
 
 void Battery::update(){
-    _batteryVoltage = (analogRead(_pin) * _bitToVoltage * _weight) + (_batteryVoltage*(1-_weight));
+    _batteryVoltage = (_analogRead(_pin) * _bitToVoltage * _weight) + (_batteryVoltage*(1-_weight));
 
     double meanCellvoltage = _batteryVoltage/_nOfCells;
     
@@ -57,7 +56,7 @@ void Battery::update(){
     if (it == sOCLookUp.begin())    _percentage = it->second;
     // Case 2: voltage is above the highest key
     else if (it == sOCLookUp.end()) _percentage = std::prev(it)->second;
-    // Ohterwise interpolate between *it (upper) and *(it-1) (lower)
+    // Otherwise interpolate between *it (upper) and *(it-1) (lower)
     else {
         auto itHigh = it;
         auto itLow  = std::prev(it);

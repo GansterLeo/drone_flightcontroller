@@ -19,7 +19,7 @@ class Battery{
                             e.g.: 2   --> batteryVoltage is doubled
                                   0.5 --> batteryVoltage is halfed
     */
-    Battery(uint8_t nOfCells, enum BatteryType type, double scaleFactor, uint8_t pinNumber);
+    Battery(uint8_t nOfCells, BatteryType type, double scaleFactor, uint8_t pinNumber, uint16_t(*analogRead)(uint8_t pinNumber));
 
     /*
         @return:
@@ -51,4 +51,5 @@ class Battery{
     double _batteryVoltage;
     double _percentage;
     float  _weight = 0.2;
+    uint16_t (*_analogRead)(uint8_t pinNumber);
 };
