@@ -6,7 +6,7 @@
 
 // #define TUNING
 #define DEBUGGING
-#define SERIAL_BOOST
+// #define SERIAL_BOOST
 
 // GPIO
 #define IMU_CS              05
@@ -24,8 +24,13 @@
 #define BATTERY_VOLTAGE_PIN 33
 // end GPIO
 
+// ESP32 specific defines
+#define ADC_VOLTAGE     3.3
+#define ADC_RESOLUTION  4096
+
 // defines
-#define SERIAL_BAUDRATE 1500000
+#define SERIAL_BAUDRATE 1000000
+#define SERIALBUFFER_SIZE 300
 #define MAX_MSSG_SIZE 100
 #ifndef DEG_TO_RAD
 #define DEG_TO_RAD (PI / 180)
@@ -36,7 +41,7 @@
 // global variables
 unsigned long prev_micros           = 0;
 unsigned long current_time          = 0;
-const float   dt                    = 500.0 / 1000000.0;  // default
+float   dt                    = 500.0 / 1000000.0;  // default
 bool          shutdown              = false;
 // end global variables
 
@@ -57,10 +62,37 @@ float B_gyro = 0.17;       //Gyro LP filter paramter, (MPU6050 default: 0.1. MPU
 
 //PID controller 
 //Controller parameters (take note of defaults before modifying!):
-#define i_limit 25.0    //Integrator saturation level, mostly for safety (default 25.0)
+#define i_limit 0.2
 #define MAX_ROLL 30.0   //Max roll angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 #define MAX_PITCH 30.0  //Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 #define MAX_YAW 80.0   //Max yaw rate in deg/sec
+#define PID_D_LOWPASS 0.93
+
+// 
+#define MAX_TEST_THROTTLE 0.13
+
+// esp now communication definitions
+#define STAT_CRITICAL_LOW_VOLT  1<<0
+#define STAT_HALF_CAPACITY      1<<1
+
+enum computationState{
+  ST_initialization = 0,
+  ST_imuInit,
+  ST_attitudeCalibration,
+  ST_motorTesting,
+  ST_resetPID,
+  ST_flying,
+  ST_emptyBattery
+};
+
+enum computationEvent{
+  EV_NONE = 0,
+  EV_initDone,
+  EV_attitudeCalDone,
+  EV_motorTestDone,
+  EV_emptyBattery
+};
+volatile computationEvent currentEvent = EV_NONE;
 
 enum serialCommunicationERROR{
   SUCCESS = 0,
