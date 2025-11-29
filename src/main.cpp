@@ -739,16 +739,16 @@ float invSqrt(float x) {
 
 int8_t checkBattery(Battery *pBattery){
   pBattery->update();
-  if(pBattery->getVoltage() < 10){
+  if(pBattery->getPercentage() < 20){
     shutdown = true;
     sendingData.error = 1;
     sendingData.status |= (STAT_CRITICAL_LOW_VOLT | STAT_HALF_CAPACITY);
     return 0;
-  } else if(pBattery->getVoltage() < 11.09){
+  } else if(pBattery->getPercentage() < 30){
     sendingData.status |= STAT_CRITICAL_LOW_VOLT;
     sendingData.status &= ~STAT_HALF_CAPACITY;
     return 1;
-  } else if(pBattery->getVoltage() < 11.55){
+  } else if(pBattery->getPercentage() < 50){
     sendingData.status &= ~STAT_CRITICAL_LOW_VOLT;
     sendingData.status |= STAT_HALF_CAPACITY;
     return 2;
