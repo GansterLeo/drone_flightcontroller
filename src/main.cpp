@@ -5,6 +5,7 @@
 #include "MPU6500.h"
 #include "battery.h"
 #include "driver/ledc.h"
+#include "QuickPID.h"
 
 #include <WiFi.h>
 #include <esp_now.h>
@@ -66,6 +67,18 @@ void printPID(char pSerialBuffer[], char* pTempBuffer, stPID pPID[], size_t nOfE
 void addToBuffer(char destiny[], char source[]);
 
 
+QuickPID pid[nOfAxisNames];
+
+void initPID(QuickPID* pPid, float* pInput, float* pOutput, float* pSetpoint, const float Kp, const float Ki, const float Kd){
+  pPid->SetInOutSetParameter(pInput, pOutput, pSetpoint);
+  pPid->SetOutputLimits(-1.0, 1.0);
+  pPid->SetMode(QuickPID::Control::automatic);
+  pPid->SetTunings(Kp, Ki, Kd, QuickPID::pMode::pOnError, QuickPID::dMode::dOnMeas, QuickPID::iAwMode::iAwCondition);
+  pPid->SetControllerDirection(QuickPID::Action::direct);
+  pPid->SetSampleTimeUs(SAMPLETIME_us);
+  pPid->Initialize();
+}
+
 void setup() {
   Serial.begin(SERIAL_BAUDRATE);
   pinMode(INIT_READY_LED_PIN, OUTPUT);
@@ -81,9 +94,6 @@ void setup() {
   PID[pitch].Ki = 0.14000000;
   PID[pitch].Kd = 0.00150000;
 
-  PID[yaw].Kp = 0.;
-  PID[yaw].Ki = 0.;
-  PID[yaw].Kd = 0.;
   // put your setup code here, to run once:
   //checkBattery();
   spiBus.begin(SPIBUS_SCK, SPIBUS_MISO, SPIBUS_MOSI, IMU_CS);                         // SCK, MISO, MOSI, SS
@@ -239,7 +249,7 @@ void setup() {
         ESP.restart();
         break;
       }
-    }
+}
    
     // INPUT
     if(enableImuDataCommunication){
@@ -432,7 +442,7 @@ void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, fl
 }
 
 void controlANGLE(stAttitude pAttitude[]) {
-  //DESCRIPTION: Computes control commands based on state error (angle)
+//DESCRIPTION: Computes control commands based on state error (angle)
   /*
    * Basic PID control to stablize on angle setpoint based on desired states roll_des, pitch_des, and yaw_des computed in 
    * getDesState(). Error is simply the desired state minus the actual state (ex. roll_des - roll_IMU). Two safety features
@@ -991,9 +1001,7 @@ int8_t analyzeMessage(char* pMessage, char pSerialBuffer[], char* pTempBuffer){
     float value = ARGV_TO_FLOAT(argv[1]);
     if(value == NAN) return VALUE_NOT_VALID;
     for(uint8_t i = 0; i < nOfAxisNames; i++){
-      PID[i].Kp = value;
-      PID[i].Ki = value;
-      PID[i].Kd = value;
+      pid[i].SetTunings(value, value, value);
     }
   }
   return SUCCESS;
