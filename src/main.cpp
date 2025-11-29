@@ -3,12 +3,15 @@
 
 #include "config.h"
 #include "MPU6500.h"
+#include "battery.h"
 #include "driver/ledc.h"
 #include "QuickPID.h"
 
 #include <WiFi.h>
 #include <esp_now.h>
 #include <esp_wifi.h>  // required for the esp_error_check()
+
+#include <esp_task_wdt.h> // for Watchdog timer reset! 
 
 // Gyro full-scale selection 
 #define GYRO_RANGE_250DPS     MPU6500::GYRO_RANGE_250DPS
@@ -39,146 +42,270 @@ data_controller_to_drone incomingReadings;  // create the struct for incoming da
 data_drone_to_controller sendingData;  // create struct for sending data
 esp_now_peer_info_t peerInfo;
 
-
 // function declaration 
 void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]);
-void applyRotationMatrix(const stAttitude pInitialFrame[], stAttitude pNewFrame[], const float pRotationMtrx[][nOfAxisNames]);
+void applyRotationMatrix(const float pDataInitialFrame[], float pDataNewFrame[], const float pRotationMtrx[][nOfAxisNames]);
 void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq);
 void controlANGLE(stAttitude pAttitude[]);
 void oneshot125_init(void);
 void oneshot125_write(const float fl_vl, const float fr_vl, const float bl_vl, const float br_vl);
-void calculate_IMU_error();
 uint8_t getIMUdata(void);
-void loopRate(uint16_t freq);
+void calculate_IMU_error(void);
+int8_t loopRate(uint16_t freq);
 float invSqrt(float x);
-void checkBattery(void);
+int8_t checkBattery(void);
 void init_wlcomm(void);
-void calibrateAttitude();
 void onDataRecv(const uint8_t* mac, const uint8_t* incomingData, const int len);
 void OnDataSent(const uint8_t* mac_addr, esp_now_send_status_t status);
-void send_data();
-int8_t analyzeMessage(char* pMessage);
-void serialCommunication();
-void printDelay(uint16_t dt);
-void printPID(stPID pPID[], size_t nOfElements);
+void send_data(void);
+int8_t charToInt(char c);
+float ARGV_TO_FLOAT(char* p);
+int8_t analyzeMessage(char* pMessage, char pSerialBuffer[], char* pTempBuffer);
+void serialCommunication(char pSerialBuffer[], char* pTempBuffer);
+void printDelay(char* pSerialBuffer, char* pTempBuffer, uint16_t dt);
+void printPID(char pSerialBuffer[], char* pTempBuffer, stPID pPID[], size_t nOfElements);
+void addToBuffer(char destiny[], char source[]);
 
-QuickPID pid[nOfAxisNames];
-
-void initPID(QuickPID* pPid, float* pInput, float* pOutput, float* pSetpoint, const float Kp, const float Ki, const float Kd){
-  pPid->SetInOutSetParameter(pInput, pOutput, pSetpoint);
-  pPid->SetOutputLimits(-1.0, 1.0);
-  pPid->SetMode(QuickPID::Control::automatic);
-  pPid->SetTunings(Kp, Ki, Kd, QuickPID::pMode::pOnError, QuickPID::dMode::dOnMeas, QuickPID::iAwMode::iAwCondition);
-  pPid->SetControllerDirection(QuickPID::Action::direct);
-  pPid->SetSampleTimeUs(SAMPLETIME_us);
-  pPid->Initialize();
-}
 
 void setup() {
   Serial.begin(SERIAL_BAUDRATE);
   pinMode(INIT_READY_LED_PIN, OUTPUT);
   digitalWrite(INIT_READY_LED_PIN, LOW);
+  Battery battery(3, Battery::BATTERY_LIPO, 0.25, BATTERY_VOLTAGE_PIN, &analogRead);
 
   Serial.printf("Hello\n");
+  PID[roll].Kp = 0.00140000;
+  PID[roll].Ki = 0.14000000;
+  PID[roll].Kd = 0.00150000;
+  
+  PID[pitch].Kp = 0.00140000;
+  PID[pitch].Ki = 0.14000000;
+  PID[pitch].Kd = 0.00150000;
 
-  initPID(&(pid[roll]), 
-          &(attitude[roll].estimate), &(pidResult[roll]), &(attitude[roll].desired), 
-          0, 0, 0);
-  initPID(&(pid[pitch]), 
-          &(attitude[pitch].estimate), &(pidResult[pitch]), &(attitude[pitch].desired), 
-          0, 0, 0);
-  initPID(&(pid[yaw]), 
-          &(attitude[yaw].estimate), &(pidResult[yaw]), &(attitude[yaw].desired), 
-          0, 0, 0);
-
+  PID[yaw].Kp = 0.;
+  PID[yaw].Ki = 0.;
+  PID[yaw].Kd = 0.;
   // put your setup code here, to run once:
   //checkBattery();
   spiBus.begin(SPIBUS_SCK, SPIBUS_MISO, SPIBUS_MOSI, IMU_CS);                         // SCK, MISO, MOSI, SS
-  Serial.printf("Now IMU init\n");
-  Serial.printf("01 MPU.begin status: %d\n",                 mpu.begin());
-  Serial.printf("02 setAccelRange status: %d\n",             mpu.setAccelRange(ACCEL_RANGE_2G));
-  Serial.printf("03 setGyroRange status: %d\n",              mpu.setGyroRange(GYRO_RANGE_250DPS));
-  Serial.printf("04 setDlpfBandwidth status: %d\n",          mpu.setDlpfBandwidth(DLPF_BANDWIDTH_184HZ));
-  Serial.printf("05 set Data Output Rate status: %d\n",      mpu.setSrd(0)); // use default 1kHz 
-  Serial.printf("06 diabled data ready interrupt: %d\n",     mpu.disableDataReadyInterrupt());
-
-  Serial.printf("IMU init done, now oneshot125init\n");
   delay(3);
+  // Initialize ESP-NOW communication
+  init_wlcomm();
   oneshot125_init();
   oneshot125_write(0.0f, 0.0f, 0.0f, 0.0f);
 
-  Serial.printf("Oneshot125 init done, now esp now init\n");
-  init_wlcomm();
-
-  Serial.printf("calibrating attitudeIMUFrame\n");
-  calibrateAttitude();
-  // !!! comment out after errors are gethered
-  calculate_IMU_error();
+  computationState currentState = ST_initialization;
+  computationState prevState    = currentState;
   
-  Serial.printf("Waiting 5s for motors to be initialised\n");
-  delay(5000);
-  Serial.printf("!!! testing motors !!!\n");
-  // test motors
-  // motors tart at 0.14
-  for (uint8_t k = 0; k < 0.1; k++) {
-    for (float i = 0.0f; i < .1f; i += 0.005f) {
-      delay(50);
-      oneshot125_write(i, i, i, i);
-      Serial.println(i);
+  bool enableBatteryVoltControl = false;
+
+  uint32_t wtdIteration = 0;
+  
+  while(1){
+    // get current time
+    prev_micros = micros();
+
+    // clear message buffer
+    char serialBuffer[SERIALBUFFER_SIZE] = "";
+    char tempBuffer[SERIALBUFFER_SIZE*2] = "";
+
+    // state machine
+    bool strictCycletime            = false; // just currently set to false, later set back to default true // true if the cycletime musst be obeyed
+    bool enableImuDataCommunication = false;
+    bool enableMadgewick            = false;
+    bool enableControlangle         = false;
+    bool enableControlmixer         = false;
+    bool enableMotorOutput          = false;
+    switch(currentState){
+      case ST_initialization:{
+        strictCycletime = false;
+        switch(prevState){
+          case ST_initialization:{
+            currentState  = ST_imuInit;
+            prevState     = ST_initialization;
+            break;
+          }
+          case ST_imuInit:{
+            currentState  = ST_attitudeCalibration;
+            prevState     = ST_initialization;
+            break;
+          }
+          case ST_attitudeCalibration:{
+            currentState  = ST_motorTesting;
+            prevState     = ST_initialization;
+            break;
+          }
+          case ST_motorTesting:{
+            sprintf(tempBuffer, "Initialisation done!\n");
+            digitalWrite(INIT_READY_LED_PIN, HIGH);
+            currentState  = ST_flying;
+            prevState     = ST_initialization;
+            break;
+          }
+          default:{
+            currentState  = ST_initialization;
+            prevState     = ST_initialization;
+          }
+        }
+        break;
+      }
+      case ST_imuInit:{
+        strictCycletime = false;
+        sprintf(tempBuffer, "\nNow IMU init\n");
+        addToBuffer(serialBuffer, tempBuffer);
+        sprintf(tempBuffer, "01 MPU.begin status: %d\n",                 mpu.begin());
+        addToBuffer(serialBuffer, tempBuffer);
+        sprintf(tempBuffer, "02 setAccelRange status: %d\n",             mpu.setAccelRange(ACCEL_RANGE_2G));
+        addToBuffer(serialBuffer, tempBuffer);
+        sprintf(tempBuffer, "03 setGyroRange status: %d\n",              mpu.setGyroRange(GYRO_RANGE_250DPS));
+        addToBuffer(serialBuffer, tempBuffer);
+        sprintf(tempBuffer, "04 setDlpfBandwidth status: %d\n",          mpu.setDlpfBandwidth(DLPF_BANDWIDTH_184HZ));
+        addToBuffer(serialBuffer, tempBuffer);
+        sprintf(tempBuffer, "05 set Data Output Rate status: %d\n",      mpu.setSrd(0)); // use default 1kHz 
+        addToBuffer(serialBuffer, tempBuffer);
+        sprintf(tempBuffer, "06 diabled data ready interrupt: %d\n",     mpu.disableDataReadyInterrupt());
+        addToBuffer(serialBuffer, tempBuffer);
+        sprintf(tempBuffer, "IMU init done, now oneshot125init\n");
+        addToBuffer(serialBuffer, tempBuffer);
+        
+        prevState = currentState;
+        currentState = ST_initialization;
+        break;
+      }
+      case ST_attitudeCalibration:{
+        enableImuDataCommunication  = true;
+        enableMadgewick             = true;
+
+        static uint16_t cntAttitude = 0;
+        sprintf(tempBuffer, "\natCal %05d:\n", cntAttitude);
+        addToBuffer(serialBuffer, tempBuffer);
+
+        if (cntAttitude >= 20000) {
+          cntAttitude = 0;
+          prevState = currentState;
+          currentState = ST_initialization;
+        }
+        else cntAttitude++;   
+        break;
+      }
+      case ST_motorTesting:{
+        strictCycletime = false;
+        enableMotorOutput = true;
+        enableImuDataCommunication = true;
+        
+        static float cntMotorThrottle = 0;
+        static bool cntUp = true;
+        if(cntMotorThrottle >= MAX_TEST_THROTTLE){
+          cntUp = false;
+        }
+        cntMotorThrottle += (0.04 * dt) * cntUp? +1:-1;
+        if((cntMotorThrottle <= 0) && (!cntUp)){
+          cntMotorThrottle = 0;
+          prevState = currentState;
+          currentState = ST_initialization;
+        }
+
+        motor[frontLeft] = motor[frontRight] = motor[backLeft] = motor[backLeft] = cntMotorThrottle;
+        break;
+      }
+      case ST_resetPID:{
+        enableImuDataCommunication = true;      
+        // yet not possible 
+
+        prevState = currentState;
+        currentState = ST_initialization;
+        break;
+      }
+      case ST_flying:{
+        enableImuDataCommunication = true;
+        enableMadgewick            = true;
+        enableControlangle         = true;
+        enableControlmixer         = true;
+        enableMotorOutput          = true;
+
+        if(currentEvent == EV_emptyBattery){
+          currentEvent = EV_NONE;
+          prevState = currentState;
+          currentState = ST_emptyBattery;
+        }
+        break;
+      }
+      case ST_emptyBattery:{
+        sprintf(tempBuffer, "\nEMPTY BATTERY!!!\nUnable to fly\n");
+        addToBuffer(serialBuffer, tempBuffer);
+        // do something
+        break;
+      }
+      default:{
+        ESP.restart();
+        break;
+      }
     }
-    for (float i = 0.1f; i > 0.0f; i -= 0.005f) {
-      delay(50);
-      oneshot125_write(i, i, i, i);
-      Serial.println(i);
+   
+    // INPUT
+    if(enableImuDataCommunication){
+      if(getIMUdata() == 1) {
+        enableMadgewick = false;
+        // communication to IMU failed
+      }
     }
+
+    serialCommunication(serialBuffer, tempBuffer);
+
+    if(enableBatteryVoltControl) {
+      int8_t result = checkBattery();
+      currentEvent = result ? EV_emptyBattery : currentEvent;
+    }
+
+    // COMPUTATION
+    if(enableMadgewick)    Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);
+    if(enableControlangle) controlANGLE(attitude);
+    if(enableControlmixer){
+      motor[frontLeft]   = incomingReadings.throttle + PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
+      motor[frontRight]  = incomingReadings.throttle + PID[pitch].value - PID[roll].value - PID[yaw].value;  //Front Right
+      motor[backLeft]    = incomingReadings.throttle - PID[pitch].value + PID[roll].value - PID[yaw].value;  //Back Right
+      motor[backRight]   = incomingReadings.throttle - PID[pitch].value - PID[roll].value + PID[yaw].value;  //Back Left
+    }
+    
+    // OUTPUT
+    if(enableMotorOutput){
+      oneshot125_write(motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    }
+    else {
+      oneshot125_write(0, 0, 0, 0);
+    }
+    send_data();
+    
+    printDelay(serialBuffer, tempBuffer, (uint16_t)(micros() - prev_micros));
+
+    
+    serialBuffer[SERIALBUFFER_SIZE - 1] = '\0';
+    Serial.print(serialBuffer);
+    Serial.printf("\ncycletime:%05d\n", micros() - prev_micros);
+    // cycletime control 
+    int8_t cycleCheckResult = loopRate(2000);
+    if((strictCycletime) && (cycleCheckResult == -1)){
+      Serial.printf("\nStrict Cycletime: %d\n", strictCycletime);
+      Serial.printf("Current State: %d, previous State: %d\n", currentState, prevState);
+      Serial.printf("Violated cycletime constrains!\nRestarting...\n");
+      ESP.restart();
+    }
+
+    // calculate actual cycle time
+    dt = (micros() - prev_micros) / 1.0e6;
   }
-  oneshot125_write(0.0f, 0.0f, 0.0f, 0.0f);
-  // end test motors
-
-  Serial.printf("Initialisation done!\n");
-
-  digitalWrite(INIT_READY_LED_PIN, HIGH);
-  prev_micros = micros();
 }
 
 void loop() {
-  // current_time = micros();
-  // dt = (current_time - prev_micros)/1000000.0;
-  prev_micros = micros();
+  Serial.print("Jumped out of while(1)!\nReseting...\n");
+  ESP.restart();
+}
 
-  //checkBattery();
-  
-  if(getIMUdata() == 1){
-    //Pulls raw gyro, accelerometer, and magnetometer data from IMU and LP filters to remove noise
-    Serial.printf("getIMUdata failed\n");
+void addToBuffer(char destiny[], char source[]){
+  if((SERIALBUFFER_SIZE - strlen(destiny)) > strlen(source)){
+    strcpy(destiny, source);
   }
-  else {
-    Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);  //Updates roll_IMU, pitch_IMU, and yaw_IMU angle estimates (degrees)
-  }
-
-  // the compute() function does only update after the sample time is reached.
-  // Therefore we have to stay in the loop until every pid controller has updated itself.
-  for(uint8_t i=0; i <= yaw;){
-    if(pid[i].Compute() == true) i++;
-  }
-
-  // control mixer
-  motor[frontLeft]   = incomingReadings.throttle + pidResult[pitch] + pidResult[roll] + pidResult[yaw];  //Front Left
-  motor[frontRight]  = incomingReadings.throttle + pidResult[pitch] - pidResult[roll] - pidResult[yaw];  //Front Right
-  motor[backLeft]    = incomingReadings.throttle - pidResult[pitch] + pidResult[roll] - pidResult[yaw];  //Back Right
-  motor[backRight]   = incomingReadings.throttle - pidResult[pitch] - pidResult[roll] + pidResult[yaw];  //Back Left
-
-  oneshot125_write(motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
-
-  serialCommunication();
-
-  send_data();
-
-  // Serial.printf("p:%05.2f;r:%05.2f;y:%05.2f\n", attitudeIMUFrame[pitch].estimate, attitudeIMUFrame[roll].estimate, attitudeIMUFrame[yaw].estimate);
-  // Serial.println(dt*1000000);
-  // Serial.println(micros() - prev_micros);
-  printDelay(micros() - prev_micros);
-  loopRate(1000000/SAMPLETIME_us);
+  source[0] = '\0';
 }
 
 void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]){
@@ -319,9 +446,16 @@ void controlANGLE(stAttitude pAttitude[]) {
    */
 
   // definition static integrals
-  static float integral_roll = 0;
-  static float integral_pitch = 0;
-  static float integral_yaw = 0;
+  static double integral_roll = 0;
+  static double integral_pitch = 0;
+  static double integral_yaw = 0;
+  // definition of previous errors
+  static float prevErrorRoll = 0;
+  static float prevErrorPitch = 0;
+  static float prevErrorYaw = 0;
+  // derivative terms
+  static float derivative[3] = {0};
+
 
   if (incomingReadings.throttle < 0.06) {  //Don't let integrator build if throttle is too low (<6%)
     integral_roll = 0;
@@ -333,27 +467,28 @@ void controlANGLE(stAttitude pAttitude[]) {
   float error_roll = pAttitude[roll].desired - (pAttitude[roll].estimate);
   integral_roll += error_roll * dt;
   integral_roll = constrain(integral_roll, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
-
-  PID[roll].value = 0.01 * ((PID[roll].Kp * error_roll) + (PID[roll].Ki * integral_roll) - (PID[roll].Kd * imu.gx));  //Scaled by .01 to bring within -1 to 1 range
+  derivative[roll] = (1-PID_D_LOWPASS)*derivative[roll] + PID_D_LOWPASS*(error_roll - prevErrorRoll)/dt; // calculate derivative and lowpass filter it
+  PID[roll].value = ((PID[roll].Kp * error_roll) + (PID[roll].Ki * integral_roll) + (PID[roll].Kd * derivative[roll])); 
+  prevErrorRoll = error_roll;
 
   //Pitch
   float error_pitch = pAttitude[pitch].desired - (pAttitude[pitch].estimate);
   integral_pitch += error_pitch * dt;
   integral_pitch = constrain(integral_pitch, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
-
-  PID[pitch].value = .01 * ((PID[pitch].Kp * error_pitch) + (PID[pitch].Ki * integral_pitch) - (PID[pitch].Kd * imu.gy));  //Scaled by .01 to bring within -1 to 1 range
+  derivative[pitch] = (1-PID_D_LOWPASS)*derivative[pitch] + PID_D_LOWPASS*(error_pitch - prevErrorPitch) / dt; // calculate derivative and lowpass filter it
+  PID[pitch].value = ((PID[pitch].Kp * error_pitch) + (PID[pitch].Ki * integral_pitch) + (PID[pitch].Kd * derivative[pitch]));  
+  prevErrorPitch = error_pitch;
 
   //Yaw, stablize on rate from GyroZ
-  static float error_yaw_prev = 0;
   float error_yaw = pAttitude[yaw].desired - imu.gz;
   integral_yaw += error_yaw * dt;
   integral_yaw = constrain(integral_yaw, -i_limit, i_limit);  //Saturate integrator to prevent unsafe buildup
-  float derivative_yaw = (error_yaw - error_yaw_prev) / dt;
+  derivative[yaw] = (1-PID_D_LOWPASS)*derivative[yaw] + PID_D_LOWPASS*(error_yaw - prevErrorYaw) / dt;
 
-  PID[yaw].value = .01 * ((PID[yaw].Kp * error_yaw) + (PID[yaw].Ki * integral_yaw) + (PID[yaw].Kd * derivative_yaw));  //Scaled by .01 to bring within -1 to 1 range
+  PID[yaw].value = ((PID[yaw].Kp * error_yaw) + (PID[yaw].Ki * integral_yaw) + (PID[yaw].Kd * derivative[yaw]));  
 
   // update prev variables
-  error_yaw_prev = error_yaw;
+  prevErrorYaw = error_yaw;
 }
 
 void oneshot125_init(void) {
@@ -567,22 +702,18 @@ void calculate_IMU_error(void){
 }
 
 
-void loopRate(uint16_t freq) {
+int8_t loopRate(uint16_t freq) {
   //DESCRIPTION: Regulate main loop rate to specified frequency in Hz
-  /*
-   * It's good to operate at a constant loop rate for filters to remain stable and whatnot. Interrupt routines running in the
-   * background cause the loop rate to fluctuate. This function basically just waits at the end of every loop iteration until 
-   * the correct time has passed since the start of the current loop for the desired loop rate in Hz. 2kHz is a good rate to 
-   * be at because the loop nominally will run between 2.8kHz - 4.2kHz. This lets us have a little room to add extra computations
-   * and remain above 2kHz, without needing to retune all of our filtering parameters.
-   */
   float invFreq = (1.0 / freq) * 1000000.0;
   unsigned long checker = micros();
-
+  if(invFreq < (checker - prev_micros)){
+    return -1;
+  }
   //Sit in loop until appropriate time has passed
   while (invFreq > (checker - prev_micros)) {
     checker = micros();
   }
+  return 1;
 }
 
 float invSqrt(float x) {
@@ -607,25 +738,26 @@ float invSqrt(float x) {
   // return 1.0/sqrtf(x); //Teensy is fast enough to just take the compute penalty lol suck it arduino nano
 }
 
-/*
-void checkBattery(void){
-  static uint16_t batVoltage = 4095;
-  batVoltage = (uint16_t)((.8*batVoltage) + (.2*analogRead(BATTERY_VOLTAGE_PIN)));
-  if(batVoltage < 3100){
+int8_t checkBattery(Battery *pBattery){
+  pBattery->update();
+  if(pBattery->getPercentage() < 20){
     shutdown = true;
     sendingData.error = 1;
     sendingData.status |= (STAT_CRITICAL_LOW_VOLT | STAT_HALF_CAPACITY);
-  } else if(batVoltage < 3443){
+    return 0;
+  } else if(pBattery->getPercentage() < 30){
     sendingData.status |= STAT_CRITICAL_LOW_VOLT;
     sendingData.status &= ~STAT_HALF_CAPACITY;
-  } else if(batVoltage < 3583){
+    return 1;
+  } else if(pBattery->getPercentage() < 50){
     sendingData.status &= ~STAT_CRITICAL_LOW_VOLT;
     sendingData.status |= STAT_HALF_CAPACITY;
+    return 2;
   } else{
     sendingData.status &= ~(STAT_CRITICAL_LOW_VOLT | STAT_HALF_CAPACITY);
+    return 3;
   }
 }
-*/
 
 /*
   this function initialises esp_now long range
@@ -678,28 +810,6 @@ void init_wlcomm(void) {
     esp_now_add_peer(&peerInfo);
   #endif
   // end esp now
-}
-
-void calibrateAttitude() {
-  //DESCRIPTION: Used to warm up the main loop to allow the madwick filter to converge before commands can be sent to the actuators
-  //Assuming vehicle is powered up on level surface!
-  /*
-   * This function is used on startup to warm up the attitudeIMUFrame estimation and is what causes startup to take a few seconds
-   * to boot. 
-   */
-  //Warm up IMU and madgwick filter in simulated main loop
-  for (int i = 0; i <= 10000; i++) {
-    // unsigned long prev_time = current_time;
-    // current_time = micros();
-    // dt = (current_time - prev_time)/1000000.0;
-    if(getIMUdata() == 0) {
-      Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);
-    }
-    else{
-      Serial.println("SPI failed!");
-    }
-    loopRate(2000);  //do not exceed 2000Hz
-  }
 }
 
 // gets called, if esp recieves data
@@ -758,6 +868,9 @@ void send_data() {
     sendingData.fr = motor[frontRight];
     sendingData.bl = motor[backLeft];
     sendingData.br = motor[backRight];
+    sendingData.pitch_pos_deg = attitude[pitch].estimate;
+    sendingData.roll_pos_deg = attitude[roll].estimate;
+    sendingData.yaw_pos_deg = attitude[yaw].estimate;
     esp_now_send(controllerAddress, (uint8_t*)&sendingData, sizeof(sendingData));
   } else cnt++;
 }
@@ -795,7 +908,7 @@ float ARGV_TO_FLOAT(char* p) {
   return neg ? -val : val;
 }
 
-int8_t analyzeMessage(char* pMessage){
+int8_t analyzeMessage(char* pMessage, char pSerialBuffer[], char* pTempBuffer){
   char *argv[8];
   int argc = 0;
 
@@ -816,21 +929,24 @@ int8_t analyzeMessage(char* pMessage){
       offset[i] = attitude[i].estimate - ARGV_TO_FLOAT(argv[i + 1]);
     }
     computeRotationMatrix(rotationMtrx, offset);
-    Serial.printf("updated rotation Matrix!\n");
+    sprintf(pTempBuffer, "updated rotation Matrix!\n");
+    addToBuffer(pSerialBuffer, pTempBuffer);
   }
   else if(strcmp(argv[0], "restart") == 0){
-    Serial.printf("Restarting...\n");
+    sprintf(pTempBuffer, "Restarting...\n");
+    addToBuffer(pSerialBuffer, pTempBuffer);
     ESP.restart();
   }
   else if(strcmp(argv[0], "throttle") == 0){
     float value = ARGV_TO_FLOAT(argv[1]);
     if(value == NAN) return VALUE_NOT_VALID;
     incomingReadings.throttle = value;
-    Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
+    sprintf(pTempBuffer, "throttle: %05.4f\n", incomingReadings.throttle);
+    addToBuffer(pSerialBuffer, pTempBuffer);
   }
   else if(strcmp(argv[0], "print") == 0){
     if(strcmp(argv[1], "pid") == 0){
-      printPID(PID, nOfAxisNames);
+      printPID(pSerialBuffer, pTempBuffer, PID, nOfAxisNames);
     }
   }
   else if(strcmp(argv[0], "pid") == 0){
@@ -856,30 +972,27 @@ int8_t analyzeMessage(char* pMessage){
         return ARGV_2ND_NOT_VALID;
     }
     if((strcmp(argv[2], "kp") == 0) || (strcmp(argv[2], "Kp") == 0)){
-      pid[selectedAxis].SetTunings(value, pid[selectedAxis].GetKi(), pid[selectedAxis].GetKd());
-      Serial.printf("Kp: %05.3f\n", pid[selectedAxis].GetKp());
+      PID[selectedAxis].Kp = value;
+      sprintf(pTempBuffer, "Kp: %05.3f\n", PID[selectedAxis].Kp);
+      addToBuffer(pSerialBuffer, pTempBuffer);
     }
     else if((strcmp(argv[2], "ki") == 0) || (strcmp(argv[2], "Ki") == 0)){
-      pid[selectedAxis].SetTunings(pid[selectedAxis].GetKp(), value, pid[selectedAxis].GetKd());
-      Serial.printf("Ki: %05.3f\n", pid[selectedAxis].GetKi());
+      PID[selectedAxis].Ki = value;
+      sprintf(pTempBuffer, "Kp: %05.3f\n", PID[selectedAxis].Ki);
+      addToBuffer(pSerialBuffer, pTempBuffer);
     }
     else if((strcmp(argv[2], "kd") == 0) || (strcmp(argv[2], "Kd") == 0)){
-      pid[selectedAxis].SetTunings(pid[selectedAxis].GetKp(), pid[selectedAxis].GetKi(), value);
-      Serial.printf("Kd: %05.3f\n", pid[selectedAxis].GetKd());
+      PID[selectedAxis].Kd = value;
+      sprintf(pTempBuffer, "Kp: %05.3f\n", PID[selectedAxis].Kd);
+      addToBuffer(pSerialBuffer, pTempBuffer);
     }
     else return ARGV_3RD_NOT_VALID;
   }
-  else if(strcmp(argv[0], "setPID") == 0){
-    float value = ARGV_TO_FLOAT(argv[1]);
-    if(value == NAN) return VALUE_NOT_VALID;
-    for(uint8_t i = 0; i < nOfAxisNames; i++){
-      pid[i].SetTunings(value, value, value);
-    }
-  }
+  
   return SUCCESS;
 }
 
-void serialCommunication(){
+void serialCommunication(char pSerialBuffer[], char* pTempBuffer){
   if(Serial.available()){
     char incomingChar = Serial.read();
     Serial.printf("%c", incomingChar);
@@ -889,16 +1002,17 @@ void serialCommunication(){
     if(incomingChar == '\n' or incomingChar == '\0'){
       messageBuf[currentIdx] = '\0';
       currentIdx = 0;
-      int8_t error = analyzeMessage(messageBuf);
+      int8_t error = analyzeMessage(messageBuf, pSerialBuffer, pTempBuffer);
       if(error != SUCCESS){
-        Serial.printf("SERIAL ERROR: %d", error);
+        sprintf(pTempBuffer, "SERIAL ERROR: %d", error);
+        addToBuffer(pSerialBuffer, pTempBuffer);
       };
       messageBuf[0] = '\0'; // clear message
     }
   }
 }
 
-void printDelay(uint16_t dt){
+void printDelay(char* pSerialBuffer, char* pTempBuffer, uint16_t dt){
   static uint16_t cnt = 0;
   static uint32_t dt_mean = 0;
   dt_mean += dt;
@@ -907,32 +1021,47 @@ void printDelay(uint16_t dt){
   if(cnt >= 1000){
     cnt = 0;
     dt_mean /= 1000;
-    Serial.println(dt_mean);
+    sprintf(pTempBuffer, "%d", dt_mean);
+    addToBuffer(pSerialBuffer, pTempBuffer);
   }
   #ifndef SERIAL_BOOST
   else if(cnt == 500){
-    Serial.printf("roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
-    Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
-    Serial.printf("motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
-    Serial.printf("%05dus\n", (uint)micros()-prev_micros);
+    sprintf(pTempBuffer, "roll: %5.3f°; pitch: %5.3f°; yaw: %5.3f°\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    addToBuffer(pSerialBuffer, pTempBuffer);
+    sprintf(pTempBuffer, "throttle: %05.4f\n", incomingReadings.throttle);
+    addToBuffer(pSerialBuffer, pTempBuffer);
+    sprintf(pTempBuffer, "motor fl: %5.3f; fr: %5.3f; bl: %5.3f; br: %5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    addToBuffer(pSerialBuffer, pTempBuffer);
+    sprintf(pTempBuffer, "%05dus\n", (uint)micros()-prev_micros);
+    addToBuffer(pSerialBuffer, pTempBuffer);
   }
   #else
-    if((cnt%4) == 0)Serial.printf("%5.3f,%5.3f,%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
-    // Serial.printf("roll:%5.3f,pitch:%5.3f,yaw:%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
-    //Serial.printf("throttle: %05.4f\n", incomingReadings.throttle);
-    //Serial.printf("mfl:%5.3f,fr:%5.3f,bl:%5.3f,br:%5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
-    //Serial.printf("%05dus\n", (uint)micros()-prev_micros);
+    sprintf(pTempBuffer, "%5.3f,%5.3f,%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    addToBuffer(pSerialBuffer, pTempBuffer);
+    sprintf(pTempBuffer, "roll:%5.3f,pitch:%5.3f,yaw:%5.3f\n", (attitude[roll].estimate), (attitude[pitch].estimate), (attitude[yaw].estimate));
+    addToBuffer(pSerialBuffer, pTempBuffer);
+    sprintf(pTempBuffer, "throttle: %05.4f\n", incomingReadings.throttle);
+    addToBuffer(pSerialBuffer, pTempBuffer);
+    sprintf(pTempBuffer, "mfl:%5.3f,fr:%5.3f,bl:%5.3f,br:%5.3f\n", motor[frontLeft], motor[frontRight], motor[backLeft], motor[backRight]);
+    addToBuffer(pSerialBuffer, pTempBuffer);
+    sprintf(pTempBuffer, "%05dus\n", (uint)micros()-prev_micros);
+    addToBuffer(pSerialBuffer, pTempBuffer);
   
   #endif
 }
 
-void printPID(stPID pPID[], size_t nOfElements){
-  Serial.printf("PID values\n");
+void printPID(char pSerialBuffer[], char* pTempBuffer, stPID pPID[], size_t nOfElements){
+  sprintf(pSerialBuffer + strlen(pSerialBuffer), "PID values\n");
       for(uint8_t i = 0; i < nOfElements; i++){
-        Serial.printf("axis: %d\n", i);
-        Serial.printf("\tKp: %10.8f\n", pPID[i].Kp);
-        Serial.printf("\tKi: %10.8f\n", pPID[i].Ki);
-        Serial.printf("\tKd: %10.8f\n", pPID[i].Kd);
+        sprintf(pTempBuffer, "axis: %d\n", i);
+        addToBuffer(pSerialBuffer, pTempBuffer);
+        sprintf(pTempBuffer, "\tKp: %10.8f\n", pPID[i].Kp);
+        addToBuffer(pSerialBuffer, pTempBuffer);
+        sprintf(pTempBuffer, "\tKi: %10.8f\n", pPID[i].Ki);
+        addToBuffer(pSerialBuffer, pTempBuffer);
+        sprintf(pTempBuffer, "\tKd: %10.8f\n", pPID[i].Kd);
+        addToBuffer(pSerialBuffer, pTempBuffer);
       }
-      Serial.printf("\n");
+      sprintf(pTempBuffer, "\n");
+      addToBuffer(pSerialBuffer, pTempBuffer);
 }
