@@ -3,7 +3,7 @@
 ## 1. Overview
 This README is intended to be a short documentation of the quadcopter I engineered over the course of 8 months.
 
-First of all, I want to thank Nicholas Rehm for his DrehmFlight project, whose code I analyzed and which helped me tremendously to create the foundation and basic structure of my flight controller.
+First of all, I want to thank Nicholas Rehm for his dRehmFlight project, whose code I analyzed and which helped me tremendously to create the foundation and basic structure of my flight controller.
 My flight controller is based on an ESP32-WROOM. It communicates via long-range ESP-NOW with a second ESP32-WROOM that serves as the controller to steer the drone. The loop rate is limited to 2 kHz, as the motor controllers are not able to update faster, and a loop rate of 2 kHz proves to be more than sufficient for this size of quadcopter, even though the ESP32 would be capable of running the code at approximately 11 kHz.
 The orientation estimation is performed via a 6-DOF IMU and a 6-DOF Madgwick filter. The IMU is connected via SPI and can be virtually leveled (inside the ESP32 software), which makes the mechanical design much easier.
 The control loop is leveling the drone to a certain angle provided by the controller uC.
@@ -12,9 +12,10 @@ The control loop is leveling the drone to a certain angle provided by the contro
 The following link provides a short [demonstration video](https://youtu.be/AJdvR4KB-JM).
 
 ## 3. Technical Summary
-posting pictures of quadcopter, controller and test stand
-## 3.1 Quadcopter
-
+![Picture of the quadcopter from a top and side view](assets/images/Top.jpg)
+The most interesting parts about the image above are the vibration damper for the IMU made out of 3D-printed green TPU, which reduces high-frequency noise from the motors tremendously. Furthermore, one 3D-printed bracket for the PID test stand can be seen under the IMU, printed in black PLA with a silver ball bearing.
+![Picture of the quadcopter form a bottom view](assets/images/Bottom.jpg)
+This picture shows the BL-DC ESCs that run on BLHeli firmware and claim to support up to 45 A continuous current for 2S to 6S batteries. Parallel capacitors were soldered on to prevent unwanted reboots of the ESCs during high changes in current, as the built-in capacitors were not sufficient. The PID test stand brackets can also be seen in this picture, positioned between the capacitors.
 
 ## 4. Engineering Journey
 ### 4.1 First prototype
@@ -29,21 +30,21 @@ Now that would solve all my problems! After watching some videos about the Kalma
 I researched further and got the feeling that my loop rate was simply too slow and decided that I would have to rebuild my drone.
 
 ### 4.4 The problems just began - *The I2C Wars*
-No problem, I just have to speed up my code. The ESP32 is so fast that this shouldn't be a problem. I thought back to a YT video I saw a few months before about the “DrehmFlight”, a simple flight controller for drones and VTOL aircraft. There I got the magical loop-rate frequency of 2 kHz. The first version was too slow because of the Adafruit IMU library. As a result, I communicated with the IMU over the I2C HAL of the ESP32.
+No problem, I just have to speed up my code. The ESP32 is so fast that this shouldn't be a problem. I thought back to a YT video I saw a few months before about the “dRehmFlight”, a simple flight controller for drones and VTOL aircraft. There I got the magical loop-rate frequency of 2 kHz. The first version was too slow because of the Adafruit IMU library. As a result, I communicated with the IMU over the I2C HAL of the ESP32.
 Testing the new code, which should finally run at 2 kHz, brought a lot of confusion: one time the I2C communication lasted 500 µs and another time 2500 µs, for the same number of bytes. After hours of googling and some dinner dates with ChatGPT, I found out that the BNO055 uses I2C clock stretching. Because of this “feature”, the sensor is practically useless for my drone project.
 
 ### 4.5 New IMU, New Problems
-The MPU6050, a 6-DOF IMU communicating over I2C, would be the solution, as this IC does not use clock stretching and is seemingly capable of overclocking up to 2.5 times the maximum frequency, i.e. 1 MHz, according to the DrehmFlight basic code. Finally, the code was capable of running at 2 kHz, at least for some time. After a few seconds, a communication error caused a complete failure of the ESP32 I2C driver. Moreover, resetting the ESP32 I2C driver and the I2C bus in software did not lead to re-establishing I2C communication with the MPU6050 in a reasonable amount of time. Improving the I2C hardware increased the time until failure significantly. Analyzing the bus via a logic analyzer showed that the clock frequency of 1 MHz was too high for the ESP32 I2C driver. However, lowering the clock frequency was no option, as the 2 kHz loop rate target was barely reachable with the 1 MHz clock frequency.
+The MPU6050, a 6-DOF IMU communicating over I2C, would be the solution, as this IC does not use clock stretching and is seemingly capable of overclocking up to 2.5 times the maximum frequency, i.e. 1 MHz, according to the dRehmFlight basic code. Finally, the code was capable of running at 2 kHz, at least for some time. After a few seconds, a communication error caused a complete failure of the ESP32 I2C driver. Moreover, resetting the ESP32 I2C driver and the I2C bus in software did not lead to re-establishing I2C communication with the MPU6050 in a reasonable amount of time. Improving the I2C hardware increased the time until failure significantly. Analyzing the bus via a logic analyzer showed that the clock frequency of 1 MHz was too high for the ESP32 I2C driver. However, lowering the clock frequency was no option, as the 2 kHz loop rate target was barely reachable with the 1 MHz clock frequency.
 
 ### 4.6 Switching to SPI - *The Interface Awakens*
 Finally, a bus/protocol that was fast enough to handle the speeds necessary for reaching the loop rate goals. With this premise I decided to buy the most popular SPI IMU, the MPU9250. At least I thought I would buy the MPU9250. Luckily, I was already aware of the common problem that occurs when buying the MPU9250, which is: not receiving the MPU9250. 😒
 I got the MPU6500, which is still capable of SPI communication. The only downside is that it's a 6-DOF IMU. I decided that I would keep the IMU I got and rewrite the MPU9250 library for the MPU6500. After finishing the library adaptations, I was able to experience the joy of the speed advantage of SPI compared to I2C. After that, I was confident I could reach my goal of a 2 kHz loop rate.
 
 ### 4.7 EKF - *Return of the Problems*
-While working to increase the loop rate, I simultaneously learned a lot about control algorithms, especially Kalman filters. I moved my orientation estimation from the standard Kalman filter to an Extended Kalman Filter (EKF). However, I struggled with the EKF implementation from Phil's Lab, likely because of minor mistakes or typos in my code. Eventually, I asked one of my teachers for advice, and he recommended loking at existing projects and switching to the Madgwick filter, which is also used in the DrehmFlight project.
+While working to increase the loop rate, I simultaneously learned a lot about control algorithms, especially Kalman filters. I moved my orientation estimation from the standard Kalman filter to an Extended Kalman Filter (EKF). However, I struggled with the EKF implementation from Phil's Lab, likely because of minor mistakes or typos in my code. Eventually, I asked one of my teachers for advice, and he recommended loking at existing projects and switching to the Madgwick filter, which is also used in the dRehmFlight project.
 
 ### 4.8 *The Last Orientation Algorithm*
-The pieces were finally coming together. A working implementation of the Madgwick algorithm from the DrehmFlight project helped me tremendously and allowed me to achieve practical results quickly. The next step was to look for suitable BLDC ESCs. After researching how to build my own sensorless BLDC ESC, I concluded that buying a cheap ESCs from AliExpress was a better approach, as I wanted to get this project to a finish (already five months in).
+The pieces were finally coming together. A working implementation of the Madgwick algorithm from the dRehmFlight project helped me tremendously and allowed me to achieve practical results quickly. The next step was to look for suitable BLDC ESCs. After researching how to build my own sensorless BLDC ESC, I concluded that buying a cheap ESCs from AliExpress was a better approach, as I wanted to get this project to a finish (already five months in).
 
 ### 4.9 *PID: A Tuning Story* 
 The tuning of the PID controllers could be a book on its own. In hindsight, it can be safely said that guessing, and trial and error were the main determinants during the first few months of tuning. Relying blindly on AI responses cost me a few additional weeks, as I was misled about the mechanism of the integral term. This resulted in hours of unnecessary coding.

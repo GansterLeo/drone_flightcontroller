@@ -1,3 +1,19 @@
+// flighcontroller — Copyright (C) 2025 GANSTER Leo
+// This file is part of <project>
+//
+// <project> is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+
 #include "Arduino.h"
 // #define CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_SILENT
 
@@ -10,8 +26,6 @@
 #include <WiFi.h>
 #include <esp_now.h>
 #include <esp_wifi.h>  // required for the esp_error_check()
-
-#include <esp_task_wdt.h> // for Watchdog timer reset! 
 
 // Gyro full-scale selection 
 #define GYRO_RANGE_250DPS     MPU6500::GYRO_RANGE_250DPS
@@ -45,12 +59,12 @@ esp_now_peer_info_t peerInfo;
 // function declaration 
 void computeRotationMatrix(float pRCorrectM[][nOfAxisNames], const float pAngles[nOfAxisNames]);
 void applyRotationMatrix(const float pDataInitialFrame[], float pDataNewFrame[], const float pRotationMtrx[][nOfAxisNames]);
-void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq);
-void controlANGLE(stAttitude pAttitude[]);
+void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq); // from dRhemFlight
+void controlAngle(stAttitude pAttitude[]);
 void oneshot125_init(void);
 void oneshot125_write(const float fl_vl, const float fr_vl, const float bl_vl, const float br_vl);
 uint8_t getIMUdata(void);
-void calculate_IMU_error(void);
+void calculateIMUError(void);
 int8_t loopRate(uint16_t freq);
 float invSqrt(float x);
 int8_t checkBattery(void);
@@ -259,7 +273,7 @@ void setup() {
 
     // COMPUTATION
     if(enableMadgewick)    Madgwick6DOF(imu.gx, -imu.gy, -imu.gz, -imu.ax, imu.ay, imu.az, dt);
-    if(enableControlangle) controlANGLE(attitude);
+    if(enableControlangle) controlAngle(attitude);
     if(enableControlmixer){
       motor[frontLeft]   = incomingReadings.throttle + PID[pitch].value + PID[roll].value + PID[yaw].value;  //Front Left
       motor[frontRight]  = incomingReadings.throttle + PID[pitch].value - PID[roll].value - PID[yaw].value;  //Front Right
@@ -432,18 +446,8 @@ void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, fl
 
 }
 
-void controlANGLE(stAttitude pAttitude[]) {
+void controlAngle(stAttitude pAttitude[]) {
   //DESCRIPTION: Computes control commands based on state error (angle)
-  /*
-   * Basic PID control to stablize on angle setpoint based on desired states roll_des, pitch_des, and yaw_des computed in 
-   * getDesState(). Error is simply the desired state minus the actual state (ex. roll_des - roll_IMU). Two safety features
-   * are implimented here regarding the I terms. The I terms are saturated within specified limits on startup to prevent 
-   * excessive buildup. This can be seen by holding the vehicle at an angle and seeing the motors ramp up on one side until
-   * they've maxed out throttle...saturating I to a specified limit fixes this. The second feature defaults the I terms to 0
-   * if the throttle is at the minimum setting. This means the motors will not start spooling up on the ground, and the I 
-   * terms will always start from 0 on takeoff. This function updates the variables roll_PID, pitch_PID, and yaw_PID which
-   * can be thought of as 1-D stablized signals. They are mixed to the configuration of the vehicle in controlMixer().
-   */
 
   // definition static integrals
   static double integral_roll = 0;
@@ -547,7 +551,7 @@ void oneshot125_init(void) {
 }
 
 /*
-  updates duty cycle of all 4 oneshot outputs
+  DESCRIPTION: updates duty cycle of all 4 oneshot outputs
   duty cycle values need to be between 0 and 1
   fl_vl ... FL_PIN
   fr_vl ... FR_PIN
@@ -567,18 +571,6 @@ void oneshot125_write(const float fl_vl, const float fr_vl, const float bl_vl, c
   ledc_update_duty(LEDC_MODE, ONESHOT3_CHANNEL);
 }
 
-//DESCRIPTION: Request full dataset from IMU and LP filter gyro, accelerometer, and magnetometer data
-  /*
-   * Reads accelerometer, gyro, and magnetometer data from IMU as AccX, AccY, AccZ, GyroX, GyroY, GyroZ, MagX, MagY, MagZ. 
-   * These values are scaled according to the IMU datasheet to put them into correct units of g's, deg/sec, and uT. A simple first-order
-   * low-pass filter is used to get rid of high frequency noise in these raw signals. Generally you want to cut
-   * off everything past 80Hz, but if your loop rate is not fast enough, the low pass filter will cause a lag in
-   * the readings. The filter parameters B_gyro and B_accel are set to be good for a 2kHz loop rate. Finally,
-   * the constant errors found in calculate_IMU_error() on startup are subtracted from the accelerometer and gyro readings.
-   * 
-   * return value is 0 if everthing went alright
-   *                 1 if the imu data reading failed
-   */
 uint8_t getIMUdata(void) {
   // define acc and gyro_prev variables here
   static float axPrev, ayPrev = 0;
@@ -628,12 +620,8 @@ uint8_t getIMUdata(void) {
 }
 
 
-void calculate_IMU_error(void){
-  //DESCRIPTION: Computes IMU accelerometer and gyro error on startup. Note: vehicle should be powered up on flat surface
-  
-  // Don't worry too much about what this is doing. The error values it computes are applied to the raw gyro and 
-  // accelerometer values AccX, AccY, AccZ, GyroX, GyroY, GyroZ in getIMUdata(). This eliminates drift in the
-  // measurement. 
+void calculateIMUError(void){
+  //DESCRIPTION: Computes IMU accelerometer and gyro error on startup. Note: vehicle should be powered up on flat surface 
 
   double AcX,AcY,AcZ,GyX,GyY,GyZ;
   AcX = 0.0;
@@ -697,8 +685,6 @@ void calculate_IMU_error(void){
   Serial.print("float GyZ = ");
   Serial.print(GyZ);
   Serial.println(";");
-
-  Serial.println("Paste these values in user specified variables section and comment out calculate_IMU_error() in void setup.");
 }
 
 
@@ -727,15 +713,6 @@ float invSqrt(float x) {
   y = y * (1.5f - (halfx * y * y));
   y = y * (1.5f - (halfx * y * y));
   return y;
-
-  /*
-  //alternate form:
-  unsigned int i = 0x5F1F1412 - (*(unsigned int*)&x >> 1);
-  float tmp = *(float*)&i;
-  float y = tmp * (1.69000231f - 0.714158168f * x * tmp * tmp);
-  return y;
-  */
-  // return 1.0/sqrtf(x); //Teensy is fast enough to just take the compute penalty lol suck it arduino nano
 }
 
 int8_t checkBattery(Battery *pBattery){
