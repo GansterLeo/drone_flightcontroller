@@ -58,6 +58,7 @@ Making this adjustments to my test setup and code, made the tables finally turn 
 
 ## 5. Reflection
 Telling an engineering story is nice but in the end the learnings that were taken during and after the engineering process made this project a real success:
+* I gained experience with embedded programming in C and acquired my first insights into C++.
 * Better hardware - specifically motors and ESCs - would have reduced IMU noise significantly and simplified tuning.  
 * Unit testing would have been possible with modular code.  
 * I learned to implement a simple command-line-interface for configuration over UART.  
@@ -65,4 +66,5 @@ Telling an engineering story is nice but in the end the learnings that were take
 * I learned practical PID tuning methods.  
 * I improved my debugging skills and deepened my understanding of the I2C and SPI buses.
 
-**Conclusion**: I really should have learned to fly a drone before building one.
+## 6. Conclusion 
+I really should have learned to fly a drone before building one.
