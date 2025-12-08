@@ -12,9 +12,10 @@ The control loop is leveling the drone to a certain angle provided by the contro
 The following link provides a short [demonstration video](https://youtu.be/AJdvR4KB-JM).
 
 ## 3. Technical Summary
-![Picture of the quadcopter from a top and side view](assets/images/Top.jpg)
+<img src="assets/images/Top.jpg" width="65%" height="65%" alt="Picture of the quadcopter from a top and side view"/>
 The most interesting parts about the image above are the vibration damper for the IMU made out of 3D-printed green TPU, which reduces high-frequency noise from the motors tremendously. Furthermore, one 3D-printed bracket for the PID test stand can be seen under the IMU, printed in black PLA with a silver ball bearing.
-![Picture of the quadcopter form a bottom view](assets/images/Bottom.jpg)
+
+<img src="assets/images/Bottom.jpg" width="65%" height="65%" alt="Picture of the quadcopter form a bottom view"/>
 This picture shows the BL-DC ESCs that run on BLHeli firmware and claim to support up to 45 A continuous current for 2S to 6S batteries. Parallel capacitors were soldered on to prevent unwanted reboots of the ESCs during high changes in current, as the built-in capacitors were not sufficient. The PID test stand brackets can also be seen in this picture, positioned between the capacitors.
 
 ## 4. Engineering Journey
