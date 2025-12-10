@@ -67,4 +67,4 @@ Telling an engineering story is nice but in the end the learnings that were take
 * I improved my debugging skills and deepened my understanding of the I2C and SPI buses.
 
 ## 6. Conclusion 
-I really should have learned to fly a drone before building one.
+I have succeeded a thousand times in showing what doesn't work. From that, it can be concluded that I failed my way to success.
